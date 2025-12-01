@@ -937,9 +937,9 @@ table td, table th {
 <!-- Access Denied Screen - ALWAYS SHOWS FIRST -->
 <div id="accessDenied" class="access-denied">
     <h1>ACCESS REQUIRED</h1>
-    <p>Please enter the access code to continue with the examination.</p>
-    <p>If you don't have the access code, contact your administrator.</p>
-    <input type="password" id="accessCode" class="access-code-input" placeholder="Enter Access Code">
+     <p>MATHS 30 QSTNS,PHYSICS 15 QSTNS ,CHEMISTRY 15 QSTNS.</p>
+      <p>CORRECT ANSWER= + 4 MARKS ,WRONG ANSWER = -1 MARK.</p>
+  <input type="password" id="accessCode" class="access-code-input" placeholder="Enter Access Code">
     <button id="verifyAccess" class="verify-btn">VERIFY ACCESS</button>
     <div id="accessError" class="access-error">❌ Invalid access code. Please try again.</div>
 </div>
@@ -1075,7 +1075,7 @@ table td, table th {
   </div>
 </div>
 
-<footer>LFJC@2025 All rights reserved</footer>
+<footer>@LFJC2025 All Rights Reserved</footer>
 
 <!-- Security Overlays -->
 <div id="fullRedOverlay"></div>
@@ -1111,7 +1111,7 @@ table td, table th {
 <script>
 // ===== CONFIGURATION =====
 const MARK_PER_CORRECT = 4, MARK_PER_WRONG = -1;
-const EXAM_DURATION_MINUTES = 115;
+const EXAM_DURATION_MINUTES = 119;
 const EXAM_DURATION_MS = EXAM_DURATION_MINUTES * 60 * 1000;
 const STORAGE_KEY_PREFIX = "lfjc_exam_";
 const MAX_QUESTIONS = 60;
@@ -1713,7 +1713,7 @@ document.addEventListener('keydown', function(e) {
 // ===== TAB SWITCH DETECTION =====
 let tabSwitchCount = 0;
 let lastTabSwitchTime = 0;
-const MAX_TAB_SWITCHES = 3;
+const MAX_TAB_SWITCHES = 2;
 const TAB_SWITCH_WINDOW_MS = 30000;
 
 document.addEventListener('visibilitychange', function() {
