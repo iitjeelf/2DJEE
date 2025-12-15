@@ -766,7 +766,7 @@ table td, table th {
   left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(135deg, #e74c3c, #c0392b);
+  background: linear-gradient(135deg, #4B0082, #8A2BE2);
   z-index: 10000;
   flex-direction: column;
   justify-content: center;
@@ -795,7 +795,7 @@ table td, table th {
 
 .verify-btn {
   background: white;
-  color: #e74c3c;
+  color: #4B0082;
   border: none;
   padding: 12px 30px;
   font-size: 16px;
@@ -936,9 +936,12 @@ table td, table th {
 
 <!-- Access Denied Screen - ALWAYS SHOWS FIRST -->
 <div id="accessDenied" class="access-denied">
-    <h1>ACCESS REQUIRED</h1>
-     <p>MATHS 30 QSTNS,PHYSICS 15 QSTNS ,CHEMISTRY 15 QSTNS.</p>
-      <p>CORRECT ANSWER= + 4 MARKS ,WRONG ANSWER = -1 MARK.</p>
+    <h1>LFJC ONLINE EXAMINATION</h1>
+     <p>MATHS 30 QSTNS,PHYSICS 15 QSTNS ,CHEMISTRY 15 QSTNS</p>
+      <p>CORRECT ANSWER= + 4 MARKS ,WRONG ANSWER = -1 MARK</p>
+  <p> First: Answeronly questions you are sure about.
+  If you spend more than 2-3 minutes on a question without a clear path to the answer, immediately click Mark for Review and move on <p>
+ <p>Second : Tackle marked/review questions. <p>
   <input type="password" id="accessCode" class="access-code-input" placeholder="Enter Access Code">
     <button id="verifyAccess" class="verify-btn">VERIFY ACCESS</button>
     <div id="accessError" class="access-error">❌ Invalid access code. Please try again.</div>
