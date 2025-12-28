@@ -2421,8 +2421,8 @@ class FullScreenSecurity {
             console.error('❌ Failed to enter full-screen:', err);
             this.showWarning();
         }
-    }
-    
+}
+
     setupEventListeners() {
         document.addEventListener('fullscreenchange', () => this.handleFullscreenChange());
         document.addEventListener('webkitfullscreenchange', () => this.handleFullscreenChange());
@@ -2679,18 +2679,325 @@ function updateFormAssignmentDisplay(studentData) {
     document.getElementById('formAssignment').style.display = 'block';
 }
 
+// ===== LOAD ANSWER KEY FROM SEPARATE FOLDER =====
+async function loadAnswerKeyFromFolder() {
+    try {
+        console.log("📥 Loading answer key from 'Answers/Key' folder...");
+        
+        // Try different possible file paths
+        const possibleFiles = [
+            'Answers/key.txt',
+            'Answers/Key/key.txt', 
+            'Answers/Key/answer_key.txt',
+            'Answers/Key/answers.txt',
+            'Answers/Key/Key.txt',
+            'key.txt',
+            'answer_key.txt'
+        ];
+        
+        let response = null;
+        let fileUsed = '';
+        
+        for (const filePath of possibleFiles) {
+            console.log(`Trying to load: ${filePath}`);
+            try {
+                response = await fetch(filePath);
+                if (response.ok) {
+                    fileUsed = filePath;
+                    console.log(`✅ Found answer key at: ${filePath}`);
+                    break;
+                }
+            } catch (err) {
+                console.log(`❌ Not found: ${filePath}`);
+                continue;
+            }
+        }
+        
+        if (!response || !response.ok) {
+            console.warn("⚠️ Could not find answer key file. Using demo data.");
+            initializeDemoData();
+            return;
+        }
+        
+        const text = await response.text();
+        console.log(`✅ Answer key loaded from: ${fileUsed}`);
+        
+        // Parse the answer key in the exact format you showed
+        const lines = text.trim().split('\n').filter(line => line.trim() !== '');
+        
+        // Start with empty answer key
+        let parsedAnswers = [];
+        
+        // Parse Physics MCQ answers (Q1-20)
+        if (lines.length > 0) {
+            // Line 1: First 5 MCQ answers for Physics
+            const line1 = lines[0].trim().toUpperCase();
+            if (line1.length === 5) {
+                parsedAnswers.push(...line1.split('')); // Q1-5
+            }
+        }
+        
+        if (lines.length > 1) {
+            // Line 2: Next 5 MCQ answers for Physics
+            const line2 = lines[1].trim().toUpperCase();
+            if (line2.length === 5) {
+                parsedAnswers.push(...line2.split('')); // Q6-10
+            }
+        }
+        
+        if (lines.length > 2) {
+            // Line 3: Next 5 MCQ answers for Physics
+            const line3 = lines[2].trim().toUpperCase();
+            if (line3.length === 5) {
+                parsedAnswers.push(...line3.split('')); // Q11-15
+            }
+        }
+        
+        if (lines.length > 3) {
+            // Line 4: Next 5 MCQ answers for Physics
+            const line4 = lines[3].trim().toUpperCase();
+            if (line4.length === 5) {
+                parsedAnswers.push(...line4.split('')); // Q16-20
+            }
+        }
+        
+        // Physics Numerical answers (Q21-25)
+        if (lines.length > 4) {
+            const line5 = lines[4].trim(); // Q21
+            parsedAnswers.push(line5);
+        }
+        
+        if (lines.length > 5) {
+            const line6 = lines[5].trim(); // Q22
+            parsedAnswers.push(line6);
+        }
+        
+        if (lines.length > 6) {
+            const line7 = lines[6].trim(); // Q23
+            parsedAnswers.push(line7);
+        }
+        
+        if (lines.length > 7) {
+            const line8 = lines[7].trim(); // Q24
+            parsedAnswers.push(line8);
+        }
+        
+        if (lines.length > 8) {
+            const line9 = lines[8].trim(); // Q25
+            parsedAnswers.push(line9);
+        }
+        
+        // Chemistry MCQ answers (Q26-45)
+        if (lines.length > 9) {
+            const line10 = lines[9].trim().toUpperCase(); // Q26-30
+            if (line10.length === 5) {
+                parsedAnswers.push(...line10.split(''));
+            }
+        }
+        
+        if (lines.length > 10) {
+            const line11 = lines[10].trim().toUpperCase(); // Q31-35
+            if (line11.length === 5) {
+                parsedAnswers.push(...line11.split(''));
+            }
+        }
+        
+        if (lines.length > 11) {
+            const line12 = lines[11].trim().toUpperCase(); // Q36-40
+            if (line12.length === 5) {
+                parsedAnswers.push(...line12.split(''));
+            }
+        }
+        
+        if (lines.length > 12) {
+            const line13 = lines[12].trim().toUpperCase(); // Q41-45
+            if (line13.length === 5) {
+                parsedAnswers.push(...line13.split(''));
+            }
+        }
+        
+        // Chemistry Numerical answers (Q46-50)
+        if (lines.length > 13) {
+            const line14 = lines[13].trim(); // Q46
+            parsedAnswers.push(line14);
+        }
+        
+        if (lines.length > 14) {
+            const line15 = lines[14].trim(); // Q47
+            parsedAnswers.push(line15);
+        }
+        
+        if (lines.length > 15) {
+            const line16 = lines[15].trim(); // Q48
+            parsedAnswers.push(line16);
+        }
+        
+        if (lines.length > 16) {
+            const line17 = lines[16].trim(); // Q49
+            parsedAnswers.push(line17);
+        }
+        
+        if (lines.length > 17) {
+            const line18 = lines[17].trim(); // Q50
+            parsedAnswers.push(line18);
+        }
+        
+        // Maths MCQ answers (Q51-70)
+        if (lines.length > 18) {
+            const line19 = lines[18].trim().toUpperCase(); // Q51-55
+            if (line19.length === 5) {
+                parsedAnswers.push(...line19.split(''));
+            }
+        }
+        
+        if (lines.length > 19) {
+            const line20 = lines[19].trim().toUpperCase(); // Q56-60
+            if (line20.length === 5) {
+                parsedAnswers.push(...line20.split(''));
+            }
+        }
+        
+        if (lines.length > 20) {
+            const line21 = lines[20].trim().toUpperCase(); // Q61-65
+            if (line21.length === 5) {
+                parsedAnswers.push(...line21.split(''));
+            }
+        }
+        
+        if (lines.length > 21) {
+            const line22 = lines[21].trim().toUpperCase(); // Q66-70
+            if (line22.length === 5) {
+                parsedAnswers.push(...line22.split(''));
+            }
+        }
+        
+        // Maths Numerical answers (Q71-75)
+        if (lines.length > 22) {
+            const line23 = lines[22].trim(); // Q71
+            parsedAnswers.push(line23);
+        }
+        
+        if (lines.length > 23) {
+            const line24 = lines[23].trim(); // Q72
+            parsedAnswers.push(line24);
+        }
+        
+        if (lines.length > 24) {
+            const line25 = lines[24].trim(); // Q73
+            parsedAnswers.push(line25);
+        }
+        
+        if (lines.length > 25) {
+            const line26 = lines[25].trim(); // Q74
+            parsedAnswers.push(line26);
+        }
+        
+        if (lines.length > 26) {
+            const line27 = lines[26].trim(); // Q75
+            parsedAnswers.push(line27);
+        }
+        
+        // Ensure we have exactly 75 answers
+        if (parsedAnswers.length !== 75) {
+            console.warn(`⚠️ Expected 75 answers but got ${parsedAnswers.length}. Using demo data.`);
+            initializeDemoData();
+            return;
+        }
+        
+        // Validate answer format
+        for (let i = 0; i < parsedAnswers.length; i++) {
+            const answer = parsedAnswers[i];
+            const questionNumber = i + 1;
+            
+            // Check which type of answer this should be
+            let expectedType = 'mcq';
+            
+            // Physics: Q1-20 (MCQ), Q21-25 (Numerical)
+            if (questionNumber >= 1 && questionNumber <= 20) expectedType = 'mcq';
+            else if (questionNumber >= 21 && questionNumber <= 25) expectedType = 'numerical';
+            // Chemistry: Q26-45 (MCQ), Q46-50 (Numerical)
+            else if (questionNumber >= 26 && questionNumber <= 45) expectedType = 'mcq';
+            else if (questionNumber >= 46 && questionNumber <= 50) expectedType = 'numerical';
+            // Maths: Q51-70 (MCQ), Q71-75 (Numerical)
+            else if (questionNumber >= 51 && questionNumber <= 70) expectedType = 'mcq';
+            else if (questionNumber >= 71 && questionNumber <= 75) expectedType = 'numerical';
+            
+            if (expectedType === 'mcq') {
+                if (!['A', 'B', 'C', 'D'].includes(answer)) {
+                    console.warn(`⚠️ Invalid MCQ answer at position ${questionNumber}: ${answer}. Should be A, B, C, or D.`);
+                    initializeDemoData();
+                    return;
+                }
+            } else {
+                // Numerical answer - check if it's a valid number
+                if (!/^-?\d+(\.\d+)?$/.test(answer)) {
+                    console.warn(`⚠️ Invalid numerical answer at position ${questionNumber}: ${answer}. Should be a number.`);
+                    initializeDemoData();
+                    return;
+                }
+            }
+        }
+        
+        answerKey = parsedAnswers;
+        keyLoaded = true;
+        
+        // Initialize images
+        images = [];
+        for (let i = 1; i <= 75; i++) {
+            images.push(`questions/${i}.png`);
+        }
+        
+        console.log("✅ REAL Answer key successfully loaded - 75 answers");
+        console.log("Answer key sample (first 10):", answerKey.slice(0, 10));
+        console.log("Answer key sample (last 10):", answerKey.slice(65, 75));
+        
+        clearErrors();
+        validateStudentInputs();
+        
+    } catch (error) {
+        console.error("❌ Error loading answer key:", error);
+        initializeDemoData();
+    }
+}
+
 // ===== INITIALIZE DEMO DATA =====
 function initializeDemoData() {
-    answerKey = [];
     console.log("🎯 Creating demo data for 75 questions");
     
-    for (let i = 1; i <= 75; i++) {
-        if (i <= 20 || (i >= 26 && i <= 45) || (i >= 51 && i <= 70)) {
-            const options = ['A', 'B', 'C', 'D'];
-            answerKey.push(options[Math.floor(Math.random() * options.length)]);
-        } else {
-            answerKey.push(String(Math.floor(Math.random() * 100) + 1));
-        }
+    answerKey = [];
+    
+    // Create demo answer key following the exact structure
+    // Physics MCQ (20 questions)
+    for (let i = 0; i < 20; i++) {
+        const options = ['A', 'B', 'C', 'D'];
+        answerKey.push(options[Math.floor(Math.random() * options.length)]);
+    }
+    
+    // Physics Numerical (5 questions)
+    for (let i = 0; i < 5; i++) {
+        answerKey.push(String(Math.floor(Math.random() * 100) + 1));
+    }
+    
+    // Chemistry MCQ (20 questions)
+    for (let i = 0; i < 20; i++) {
+        const options = ['A', 'B', 'C', 'D'];
+        answerKey.push(options[Math.floor(Math.random() * options.length)]);
+    }
+    
+    // Chemistry Numerical (5 questions)
+    for (let i = 0; i < 5; i++) {
+        answerKey.push(String(Math.floor(Math.random() * 100) + 1));
+    }
+    
+    // Maths MCQ (20 questions)
+    for (let i = 0; i < 20; i++) {
+        const options = ['A', 'B', 'C', 'D'];
+        answerKey.push(options[Math.floor(Math.random() * options.length)]);
+    }
+    
+    // Maths Numerical (5 questions)
+    for (let i = 0; i < 5; i++) {
+        answerKey.push(String(Math.floor(Math.random() * 100) + 1));
     }
     
     images = [];
@@ -2702,63 +3009,7 @@ function initializeDemoData() {
     clearErrors();
     validateStudentInputs();
     console.log('✅ Demo Data Ready - 75 questions');
-}
-
-// ===== LOAD ANSWER KEY =====
-async function loadAnswerKeyFromRepo() {
-    try {
-        console.log("📥 Loading answer key for 75 questions...");
-        
-        // Try to load from Answers/Key
-        const response = await fetch('Answers/Key');
-        
-        if (!response.ok) {
-            throw new Error(`Failed to fetch answer key: ${response.status}`);
-        }
-        
-        const text = await response.text();
-        console.log("✅ Answer key loaded");
-        
-        // Simple parsing
-        const lines = text.trim().split('\n').filter(line => line.trim() !== '');
-        const parsedAnswers = [];
-        
-        for (let i = 0; i < lines.length; i++) {
-            const line = lines[i].trim();
-            
-            if (line.includes(',')) {
-                const answers = line.split(',').map(a => a.trim().toUpperCase());
-                parsedAnswers.push(...answers);
-            } else {
-                parsedAnswers.push(line.toUpperCase());
-            }
-            
-            if (parsedAnswers.length >= 75) break;
-        }
-        
-        if (parsedAnswers.length !== 75) {
-            console.error(`❌ Expected 75 answers but got ${parsedAnswers.length}`);
-            initializeDemoData();
-            return;
-        }
-        
-        answerKey = parsedAnswers.slice(0, 75);
-        keyLoaded = true;
-        
-        images = [];
-        for (let i = 1; i <= 75; i++) {
-            images.push(`questions/${i}.png`);
-        }
-        
-        console.log("✅ REAL Answer key loaded - 75 answers");
-        
-        clearErrors();
-        validateStudentInputs();
-        
-    } catch (error) {
-        console.error("❌ Failed to load answer key, using demo data");
-        initializeDemoData();
-    }
+    console.log('Demo answer key sample:', answerKey.slice(0, 10));
 }
 
 // ===== PREPARE EXAM DATA =====
@@ -2821,6 +3072,10 @@ function prepareExamData() {
   
   console.log("🎯 EXAM DATA VERIFICATION:");
   console.log("Total Questions:", examData.files.length);
+  console.log("Subject distribution:");
+  console.log("- Physics:", examData.subjectNames.filter(s => s === "Physics").length);
+  console.log("- Chemistry:", examData.subjectNames.filter(s => s === "Chemistry").length);
+  console.log("- Maths:", examData.subjectNames.filter(s => s === "Maths").length);
 }
 
 // ===== RENDER QUESTION =====
@@ -4273,9 +4528,9 @@ function showViolationOverlay(message, color) {
 window.addEventListener('load', function() {
   console.log('LFJC Online Exam System Initialized (75 Questions)');
   console.log('📚 Question Structure:');
-  console.log('• Maths: Q1-20 (MCQ), Q21-25 (Numerical Input)');
-  console.log('• Physics: Q26-45 (MCQ), Q46-50 (Numerical Input)');
-  console.log('• Chemistry: Q51-70 (MCQ), Q71-75 (Numerical Input)');
+  console.log('• Physics: Q1-20 (MCQ), Q21-25 (Numerical Input)');
+  console.log('• Chemistry: Q26-45 (MCQ), Q46-50 (Numerical Input)');
+  console.log('• Maths: Q51-70 (MCQ), Q71-75 (Numerical Input)');
   console.log('🔒 Full-Screen Security Active');
   console.log('📊 Tab Switching Detection: 3 switches total submit exam');
   console.log('🔒 System Tray Detection: 3 violations total submit exam');
@@ -4293,8 +4548,8 @@ window.addEventListener('load', function() {
   
   document.getElementById('accessCode').focus();
   
-  // Load answer key first
-  loadAnswerKeyFromRepo();
+  // Load answer key from folder
+  loadAnswerKeyFromFolder();
   
   // Initialize power loss protection
   setTimeout(() => {
