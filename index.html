@@ -1477,7 +1477,13 @@ table td, table th {
     <p style="margin: 10px 0; font-weight: bold;">CORRECT ANSWER + 4 MARKS</p>
     <p style="margin: 5px 0; font-weight: bold;">WRONG ANSWER -1 MARK</p>
     <p style="margin: 15px 0; max-width: 600px; line-height: 1.5;">
-       
+        <strong>Instructions:</strong><br>
+        • No switching tabs/windows (3 times = auto-submit)<br>
+        • No accessing system tray/taskbar (3 times = auto-submit)<br>
+        • Full-screen required throughout<br>
+        • No screenshots or printing allowed<br>
+        • Time limit: 3 hours (180 minutes)
+    </p>
     <input type="password" id="accessCode" class="access-code-input" placeholder="Enter Access Code">
     <button id="verifyAccess" class="verify-btn">VERIFY ACCESS</button>
     <div id="accessError" class="access-error">❌ Invalid access code. Please try again.</div>
@@ -1745,76 +1751,173 @@ const subjects = ["Physics", "Chemistry", "Maths"];
 let examData = {files: [], subjectNames: [], keys: [], originalOrder: [], questionTypes: []};
 let progress = null, timerInterval = null;
 
-// ===== YOUR EXACT ANSWER KEY =====
-const YOUR_EXACT_ANSWER_KEY = [
-    // Physics MCQ Q1-20 (4 lines × 5)
-    "B","A","A","A","B",      // Line 1: BAAAB
-    "B","A","B","C","C",      // Line 2: BABCC
-    "B","A","D","C","A",      // Line 3: BADCA
-    "A","A","C","B","A",      // Line 4: AACBA
-    
-    // Physics Numerical Q21-25
-    "7","125","4","7","770",
-    
-    // Chemistry MCQ Q26-45 (4 lines × 5)
-    "B","B","C","A","D",      // Line 1: BBCAD
-    "C","B","B","C","A",      // Line 2: CBBCA
-    "C","C","A","C","D",      // Line 3: CCACD
-    "A","A","B","C","A",      // Line 4: AABCA
-    
-    // Chemistry Numerical Q46-50
-    "3","11","3","4","2",
-    
-    // Maths MCQ Q51-70 (4 lines × 5)
-    "A","A","B","B","A",      // Line 1: AABBA
-    "A","C","B","D","A",      // Line 2: ACBDA
-    "C","B","C","B","A",      // Line 3: CBCBA
-    "A","D","D","C","B",      // Line 4: ADDCB
-    
-    // Maths Numerical Q71-75
-    "1328","0","15","0","8"
-];
-
-// ===== LOAD ANSWER KEY (YOUR EXACT ANSWERS) =====
-async function loadAnswerKey() {
+// ===== LOAD ANSWER KEY FROM EXTERNAL TEXT FILE =====
+async function loadAnswerKeyFromTextFile() {
     try {
-        console.log("📥 LOADING YOUR EXACT ANSWER KEY...");
+        console.log("📥 LOADING ANSWER KEY FROM TEXT FILE...");
         
-        // Use your exact answers
-        answerKey = [...YOUR_EXACT_ANSWER_KEY];
+        // Try different possible file locations
+        const possibleFiles = [
+            'key.txt',           // Same folder
+            './key.txt',         // Current folder
+            'answers/key.txt',   // Subfolder
+            'data/key.txt',      // Data subfolder
+            '../key.txt',        // Parent folder
+            'KEY.TXT',           // Uppercase
+            'answer_key.txt'     // Alternative name
+        ];
         
-        // Verify we have exactly 75 answers
-        if (answerKey.length !== 75) {
-            throw new Error(`Expected 75 answers, got ${answerKey.length}`);
-        }
+        let response = null;
+        let fileUsed = '';
         
-        // Validate each answer
-        for (let i = 0; i < 75; i++) {
-            const qNum = i + 1;
-            const answer = answerKey[i];
-            
-            // Determine question type
-            const isNumerical = 
-                (qNum >= 21 && qNum <= 25) ||    // Physics numerical
-                (qNum >= 46 && qNum <= 50) ||    // Chemistry numerical
-                (qNum >= 71 && qNum <= 75);      // Maths numerical
-            
-            if (isNumerical) {
-                if (!/^-?\d+(\.\d+)?$/.test(answer)) {
-                    throw new Error(`Invalid numerical answer at Q${qNum}: "${answer}"`);
+        for (const filePath of possibleFiles) {
+            console.log(`Trying to load: ${filePath}`);
+            try {
+                response = await fetch(filePath);
+                if (response.ok) {
+                    fileUsed = filePath;
+                    console.log(`✅ Found answer key at: ${filePath}`);
+                    break;
                 }
-            } else {
-                if (!['A', 'B', 'C', 'D'].includes(answer)) {
-                    throw new Error(`Invalid MCQ answer at Q${qNum}: "${answer}"`);
-                }
+            } catch (err) {
+                console.log(`❌ Not found: ${filePath}`);
+                continue;
             }
         }
         
-        console.log("✅ ANSWER KEY LOADED SUCCESSFULLY!");
-        console.log("📊 Total answers:", answerKey.length);
-        console.log("📋 First 10 answers:", answerKey.slice(0, 10));
-        console.log("📋 Last 10 answers:", answerKey.slice(65, 75));
+        if (!response || !response.ok) {
+            throw new Error("❌ Could not find 'key.txt' file. Please ensure 'key.txt' is in the same folder as this exam.");
+        }
         
+        const text = await response.text();
+        console.log(`✅ Text file loaded from: ${fileUsed}`);
+        console.log("📄 File content (first 200 chars):", text.substring(0, 200));
+        
+        // Parse your exact format (25 lines for 75 answers)
+        const lines = text.trim().split('\n').filter(line => line.trim() !== '');
+        console.log(`📊 Found ${lines.length} lines in text file`);
+        
+        if (lines.length !== 25) {
+            throw new Error(`❌ Expected 25 lines for 75 answers, but found ${lines.length} lines. 
+            Your file should have exactly 25 lines (4×5 MCQ + 5 numerical = 25 lines for each subject)`);
+        }
+        
+        // Parse your exact format
+        const parsedAnswers = [];
+        let lineIndex = 0;
+        
+        // ===== PHYSICS =====
+        console.log("📚 Parsing Physics answers...");
+        
+        // Physics MCQ Q1-20 (4 lines × 5 answers = 20)
+        for (let i = 0; i < 4; i++) {
+            const line = lines[lineIndex++];
+            console.log(`  Physics MCQ Line ${i+1}: "${line}"`);
+            
+            if (line.length !== 5) {
+                throw new Error(`❌ Line ${lineIndex}: Expected 5 MCQ answers, found "${line}" (${line.length} characters)`);
+            }
+            
+            // Validate and add each character as a separate answer
+            const answers = line.split('');
+            answers.forEach((ans, idx) => {
+                if (!['A', 'B', 'C', 'D'].includes(ans)) {
+                    throw new Error(`❌ Invalid MCQ answer "${ans}" at Physics Q${(i*5)+idx+1}`);
+                }
+                parsedAnswers.push(ans);
+            });
+        }
+        
+        // Physics Numerical Q21-25 (5 answers)
+        console.log("🔢 Physics Numerical answers:");
+        for (let i = 0; i < 5; i++) {
+            const answer = lines[lineIndex++];
+            console.log(`  Q${21+i}: "${answer}"`);
+            
+            if (!/^-?\d+(\.\d+)?$/.test(answer)) {
+                throw new Error(`❌ Invalid numerical answer "${answer}" at Physics Q${21+i}`);
+            }
+            parsedAnswers.push(answer);
+        }
+        
+        // ===== CHEMISTRY =====
+        console.log("📚 Parsing Chemistry answers...");
+        
+        // Chemistry MCQ Q26-45 (4 lines × 5 answers = 20)
+        for (let i = 0; i < 4; i++) {
+            const line = lines[lineIndex++];
+            console.log(`  Chemistry MCQ Line ${i+1}: "${line}"`);
+            
+            if (line.length !== 5) {
+                throw new Error(`❌ Line ${lineIndex}: Expected 5 MCQ answers, found "${line}"`);
+            }
+            
+            const answers = line.split('');
+            answers.forEach((ans, idx) => {
+                if (!['A', 'B', 'C', 'D'].includes(ans)) {
+                    throw new Error(`❌ Invalid MCQ answer "${ans}" at Chemistry Q${26+(i*5)+idx}`);
+                }
+                parsedAnswers.push(ans);
+            });
+        }
+        
+        // Chemistry Numerical Q46-50 (5 answers)
+        console.log("🔢 Chemistry Numerical answers:");
+        for (let i = 0; i < 5; i++) {
+            const answer = lines[lineIndex++];
+            console.log(`  Q${46+i}: "${answer}"`);
+            
+            if (!/^-?\d+(\.\d+)?$/.test(answer)) {
+                throw new Error(`❌ Invalid numerical answer "${answer}" at Chemistry Q${46+i}`);
+            }
+            parsedAnswers.push(answer);
+        }
+        
+        // ===== MATHS =====
+        console.log("📚 Parsing Maths answers...");
+        
+        // Maths MCQ Q51-70 (4 lines × 5 answers = 20)
+        for (let i = 0; i < 4; i++) {
+            const line = lines[lineIndex++];
+            console.log(`  Maths MCQ Line ${i+1}: "${line}"`);
+            
+            if (line.length !== 5) {
+                throw new Error(`❌ Line ${lineIndex}: Expected 5 MCQ answers, found "${line}"`);
+            }
+            
+            const answers = line.split('');
+            answers.forEach((ans, idx) => {
+                if (!['A', 'B', 'C', 'D'].includes(ans)) {
+                    throw new Error(`❌ Invalid MCQ answer "${ans}" at Maths Q${51+(i*5)+idx}`);
+                }
+                parsedAnswers.push(ans);
+            });
+        }
+        
+        // Maths Numerical Q71-75 (5 answers)
+        console.log("🔢 Maths Numerical answers:");
+        for (let i = 0; i < 5; i++) {
+            const answer = lines[lineIndex++];
+            console.log(`  Q${71+i}: "${answer}"`);
+            
+            if (!/^-?\d+(\.\d+)?$/.test(answer)) {
+                throw new Error(`❌ Invalid numerical answer "${answer}" at Maths Q${71+i}`);
+            }
+            parsedAnswers.push(answer);
+        }
+        
+        // Verify we have exactly 75 answers
+        if (parsedAnswers.length !== 75) {
+            throw new Error(`❌ Expected 75 answers, got ${parsedAnswers.length}`);
+        }
+        
+        console.log("✅ ANSWER KEY LOADED SUCCESSFULLY FROM TEXT FILE!");
+        console.log("📊 Total answers:", parsedAnswers.length);
+        console.log("📋 First 10 answers:", parsedAnswers.slice(0, 10));
+        console.log("📋 Last 10 answers:", parsedAnswers.slice(65, 75));
+        
+        // Save to global variables
+        answerKey = parsedAnswers;
         keyLoaded = true;
         
         // Initialize images
@@ -1823,24 +1926,31 @@ async function loadAnswerKey() {
             images.push(`questions/${i}.png`);
         }
         
-        showToast('✅ Answer key loaded successfully!', 'success', 3000);
+        showToast('✅ Answer key loaded successfully from key.txt!', 'success', 3000);
         
         clearErrors();
         validateStudentInputs();
         return true;
         
     } catch (error) {
-        console.error("❌ ERROR LOADING ANSWER KEY:", error);
+        console.error("❌ ERROR LOADING ANSWER KEY FROM TEXT FILE:", error);
         
+        // Show clear error message
         showError(`
             <div style="color: red; padding: 15px; border: 2px solid red; border-radius: 5px;">
-                <strong>❌ ANSWER KEY ERROR</strong><br><br>
+                <strong>❌ ANSWER KEY FILE ERROR</strong><br><br>
                 ${error.message}<br><br>
-                <small>Please check the embedded answer key in the code.</small>
+                <small>Please ensure you have a file named 'key.txt' in the same folder with this format:<br>
+                1. 25 lines total<br>
+                2. First 4 lines: 5 MCQ answers each (like "BAAAB")<br>
+                3. Next 5 lines: Numerical answers<br>
+                4. Repeat for Chemistry and Maths</small>
             </div>
         `);
         
+        // Disable start button
         document.getElementById('stuStartBtn').style.display = 'none';
+        
         return false;
     }
 }
@@ -4299,7 +4409,7 @@ window.addEventListener('load', function() {
   console.log('🔒 System Tray Detection: 3 violations total submit exam');
   console.log('⚡ POWER LOSS PROTECTION: Auto-save every 15 seconds');
   console.log('📤 GOOGLE FORMS SUBMISSION: Enabled');
-  console.log('✅ YOUR EXACT ANSWER KEY IS EMBEDDED IN THE CODE');
+  console.log('📁 Loading answer key from external text file...');
   
   document.getElementById('accessDenied').style.display = 'flex';
   document.getElementById('studentEntry').style.display = 'none';
@@ -4312,11 +4422,14 @@ window.addEventListener('load', function() {
   
   document.getElementById('accessCode').focus();
   
-  // Load your embedded answer key
-  loadAnswerKey().then(success => {
+  // Load answer key from external text file
+  loadAnswerKeyFromTextFile().then(success => {
     if (success) {
-      console.log("✅ Your exact answer key loaded successfully!");
-      showToast('✅ Your answer key is ready! Enter access code.', 'success', 3000);
+      console.log("✅ Answer key loaded successfully from external file!");
+      showToast('✅ Answer key loaded from key.txt! System ready.', 'success', 3000);
+    } else {
+      console.error("❌ Failed to load answer key from external file");
+      showToast('❌ Failed to load answer key. Check key.txt file.', 'error', 5000);
     }
   });
   
@@ -4327,9 +4440,9 @@ window.addEventListener('load', function() {
 });
 
 console.log("🎯 LFJC Online Exam System Loaded Successfully");
-console.log("✅ Your exact 75 answers are embedded in the code");
-console.log("✅ No external files needed - guaranteed to work!");
-console.log("✅ System ready with your answer key");
+console.log("✅ Loading answer key from external key.txt file");
+console.log("✅ System will read your exact 75 answers from the text file");
+console.log("✅ No demo data fallback - file or error only");
 </script>
 </body>
 </html>
