@@ -1472,12 +1472,13 @@ table td, table th {
     <h1>LFJC ONLINE EXAMINATION</h1>
     <p style="font-size: 1.2em; margin: 10px 0;">TOTAL 75 QUESTIONS</p>
     <p style="margin: 5px 0;">• Maths: 20 (MCQ), 5 (Numerical Input)</p>
-    <p style="margin: 5px 0;">• Physics: 20 (MCQ), 5 (Numerical Input)</p>
+    <p style="margin: 5px 0;">• Physics: 20 (MCQ), 5(Numerical Input)</p>
     <p style="margin: 5px 0;">• Chemistry: 20 (MCQ), 5 (Numerical Input)</p>
     <p style="margin: 10px 0; font-weight: bold;">CORRECT ANSWER + 4 MARKS</p>
     <p style="margin: 5px 0; font-weight: bold;">WRONG ANSWER -1 MARK</p>
     <p style="margin: 15px 0; max-width: 600px; line-height: 1.5;">
-        
+        <strong>Instructions:</strong><br>
+       
     </p>
     <input type="password" id="accessCode" class="access-code-input" placeholder="Enter Access Code">
     <button id="verifyAccess" class="verify-btn">VERIFY ACCESS</button>
@@ -1742,7 +1743,7 @@ let autoSaveIndicator = null;
 let powerLossRecoveryData = null;
 let resumeInProgress = false;
 
-const subjects = ["Maths", "Physics", "Chemistry"];
+const subjects = ["Physics", "Chemistry", "Maths"];
 let examData = {files: [], subjectNames: [], keys: [], originalOrder: [], questionTypes: []};
 let progress = null, timerInterval = null;
 
@@ -2786,9 +2787,9 @@ function prepareExamData() {
         subjectOriginalOrder.push(imgIndex);
         
         let questionType = 'mcq';
-        if ((subject.name === "Maths" && i >= 21 && i <= 25) ||
-            (subject.name === "Physics" && i >= 46 && i <= 50) ||
-            (subject.name === "Chemistry" && i >= 71 && i <= 75)) {
+        if ((subject.name === "Physics" && i >= 21 && i <= 25) ||
+            (subject.name === "Chemistry" && i >= 46 && i <= 50) ||
+            (subject.name === "Maths" && i >= 71 && i <= 75)) {
           questionType = 'fill-blank';
         }
         subjectTypes.push(questionType);
