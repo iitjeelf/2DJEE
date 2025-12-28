@@ -2679,239 +2679,366 @@ function updateFormAssignmentDisplay(studentData) {
     document.getElementById('formAssignment').style.display = 'block';
 }
 
-// ===== LOAD ANSWER KEY FROM SEPARATE FOLDER =====
-async function loadAnswerKeyFromFolder() {
+// ===== LOAD ANSWER KEY FROM CSV FILE =====
+async function loadAnswerKeyFromCSV() {
     try {
-        console.log("📥 Loading answer key from folder...");
+        console.log("📥 Loading answer key from CSV file...");
         
-        // Try different possible file paths - UPDATE THESE BASED ON YOUR FOLDER STRUCTURE
         const possibleFiles = [
-            'key.txt',                    // If key.txt is in same folder as HTML
-            'Answer/key.txt',            // If in "Answer" folder
-            'Answers/key.txt',           // If in "Answers" folder
-            'key/answer_key.txt',        // If in "key" folder
-            'answer_key.txt',            // Direct file
-            'data/key.txt',              // If in "data" folder
-            '../key.txt',                // If in parent folder
-            './key.txt',                 // Current folder
-            'Answers/Key/key.txt',       // If in "Answers/Key" folder
-            'Key/key.txt',               // If in "Key" folder
-            'keys/key.txt',              // If in "keys" folder
-            'answerkey.txt',             // Alternative filename
-            'answers.txt'                // Alternative filename
+            'answer_key.csv',
+            'key.csv',
+            'Answers/key.csv',
+            'Answers/Key/key.csv',
+            'Key/key.csv',
+            'data/answer_key.csv',
+            'csv/key.csv',
+            '../answer_key.csv',
+            './answer_key.csv'
         ];
         
         let response = null;
         let fileUsed = '';
         
         for (const filePath of possibleFiles) {
-            console.log(`Trying to load: ${filePath}`);
+            console.log(`Trying to load CSV: ${filePath}`);
             try {
                 response = await fetch(filePath);
                 if (response.ok) {
                     fileUsed = filePath;
-                    console.log(`✅ Found answer key at: ${filePath}`);
+                    console.log(`✅ Found CSV answer key at: ${filePath}`);
                     break;
                 }
             } catch (err) {
-                console.log(`❌ Not found: ${filePath}`);
+                console.log(`❌ CSV not found: ${filePath}`);
                 continue;
             }
         }
         
         if (!response || !response.ok) {
-            console.warn("⚠️ Could not find answer key file. Please check:");
-            console.log("1. Is the key.txt file in the correct folder?");
-            console.log("2. Check browser console for exact path errors");
-            console.log("3. Using demo data temporarily");
+            console.warn("⚠️ Could not find CSV answer key file.");
+            return false;
+        }
+        
+        const csvText = await response.text();
+        console.log(`✅ CSV answer key loaded from: ${fileUsed}`);
+        console.log(`📄 CSV content preview (first 500 chars): ${csvText.substring(0, 500)}...`);
+        
+        // Parse CSV
+        const lines = csvText.trim().split('\n');
+        if (lines.length < 2) {
+            console.error("❌ CSV file is empty or has only headers");
+            return false;
+        }
+        
+        // Extract headers
+        const headers = lines[0].split(',').map(h => h.trim());
+        console.log(`📊 CSV headers: ${headers.join(', ')}`);
+        
+        // Find relevant column indices
+        let questionIndex = -1;
+        let answerIndex = -1;
+        let subjectIndex = -1;
+        let typeIndex = -1;
+        
+        headers.forEach((header, index) => {
+            const lowerHeader = header.toLowerCase();
+            if (lowerHeader.includes('question') || lowerHeader.includes('qno') || lowerHeader.includes('q#')) {
+                questionIndex = index;
+            }
+            if (lowerHeader.includes('answer') || lowerHeader.includes('correct') || lowerHeader.includes('key')) {
+                answerIndex = index;
+            }
+            if (lowerHeader.includes('subject')) {
+                subjectIndex = index;
+            }
+            if (lowerHeader.includes('type')) {
+                typeIndex = index;
+            }
+        });
+        
+        if (questionIndex === -1) {
+            console.error("❌ CSV format error: No 'Question' column found");
+            console.log("Available columns:", headers);
+            return false;
+        }
+        
+        if (answerIndex === -1) {
+            // Try to find answer column by checking all columns
+            for (let i = 0; i < headers.length; i++) {
+                if (i !== questionIndex) {
+                    answerIndex = i;
+                    console.log(`Assuming column '${headers[i]}' contains answers`);
+                    break;
+                }
+            }
+        }
+        
+        if (answerIndex === -1) {
+            console.error("❌ CSV format error: No answer column found");
+            return false;
+        }
+        
+        // Initialize answer array with 75 empty slots
+        const parsedAnswers = new Array(75);
+        
+        // Track which questions we've found
+        const foundQuestions = new Set();
+        
+        // Parse data rows
+        for (let i = 1; i < lines.length; i++) {
+            const line = lines[i].trim();
+            if (!line) continue;
             
-            // Show error to user
-            showError("❌ Answer key file not found. Please contact administrator.");
+            // Handle quoted CSV values
+            const cells = [];
+            let currentCell = '';
+            let inQuotes = false;
             
-            initializeDemoData();
-            return;
+            for (let j = 0; j < line.length; j++) {
+                const char = line[j];
+                
+                if (char === '"') {
+                    inQuotes = !inQuotes;
+                } else if (char === ',' && !inQuotes) {
+                    cells.push(currentCell.trim());
+                    currentCell = '';
+                } else {
+                    currentCell += char;
+                }
+            }
+            cells.push(currentCell.trim());
+            
+            if (cells.length > Math.max(questionIndex, answerIndex)) {
+                const qNumStr = cells[questionIndex].replace(/[^0-9]/g, '');
+                const qNum = parseInt(qNumStr);
+                
+                if (!isNaN(qNum) && qNum >= 1 && qNum <= 75) {
+                    let answer = cells[answerIndex].trim().toUpperCase();
+                    
+                    // Clean up the answer
+                    answer = answer.replace(/"/g, ''); // Remove quotes
+                    answer = answer.replace(/[\r\n]/g, ''); // Remove line breaks
+                    
+                    // Validate answer format based on question type
+                    if ((qNum >= 1 && qNum <= 20) || (qNum >= 26 && qNum <= 45) || (qNum >= 51 && qNum <= 70)) {
+                        // MCQ questions - should be A, B, C, or D
+                        if (['A', 'B', 'C', 'D'].includes(answer)) {
+                            parsedAnswers[qNum - 1] = answer;
+                            foundQuestions.add(qNum);
+                        } else if (/^[1-4]$/.test(answer)) {
+                            // Convert 1-4 to A-D
+                            const options = ['A', 'B', 'C', 'D'];
+                            parsedAnswers[qNum - 1] = options[parseInt(answer) - 1] || 'A';
+                            foundQuestions.add(qNum);
+                        } else {
+                            console.warn(`⚠️ Invalid MCQ answer for Q${qNum}: ${answer}, using default 'A'`);
+                            parsedAnswers[qNum - 1] = 'A';
+                            foundQuestions.add(qNum);
+                        }
+                    } else {
+                        // Numerical questions
+                        if (/^-?\d+(\.\d+)?$/.test(answer)) {
+                            parsedAnswers[qNum - 1] = answer;
+                            foundQuestions.add(qNum);
+                        } else {
+                            // Try to extract numbers
+                            const numMatch = answer.match(/-?\d+(\.\d+)?/);
+                            if (numMatch) {
+                                parsedAnswers[qNum - 1] = numMatch[0];
+                                foundQuestions.add(qNum);
+                            } else {
+                                console.warn(`⚠️ Invalid numerical answer for Q${qNum}: ${answer}, using default '0'`);
+                                parsedAnswers[qNum - 1] = '0';
+                                foundQuestions.add(qNum);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        
+        // Fill in any missing questions
+        let missingCount = 0;
+        for (let i = 0; i < 75; i++) {
+            if (!parsedAnswers[i]) {
+                const qNum = i + 1;
+                
+                // Determine default based on question type
+                if ((qNum >= 1 && qNum <= 20) || (qNum >= 26 && qNum <= 45) || (qNum >= 51 && qNum <= 70)) {
+                    parsedAnswers[i] = 'A'; // Default MCQ answer
+                } else {
+                    parsedAnswers[i] = '0'; // Default numerical answer
+                }
+                
+                missingCount++;
+                console.warn(`⚠️ No answer found for Q${qNum}, using default`);
+            }
+        }
+        
+        if (missingCount > 0) {
+            console.warn(`⚠️ ${missingCount} questions missing from CSV, using defaults`);
+        }
+        
+        console.log(`✅ Parsed ${foundQuestions.size} questions from CSV`);
+        console.log(`📊 CSV Answers sample (Q1-10):`, parsedAnswers.slice(0, 10));
+        
+        // Success!
+        answerKey = parsedAnswers;
+        keyLoaded = true;
+        
+        // Initialize images
+        images = [];
+        for (let i = 1; i <= 75; i++) {
+            images.push(`questions/${i}.png`);
+        }
+        
+        console.log("✅ CSV Answer key successfully loaded - 75 answers");
+        showToast('✅ CSV Answer key loaded successfully!', 'success', 3000);
+        
+        clearErrors();
+        validateStudentInputs();
+        return true;
+        
+    } catch (error) {
+        console.error("❌ Error loading CSV answer key:", error);
+        showError("Error loading CSV answer key. Trying text file...");
+        return false;
+    }
+}
+
+// ===== LOAD ANSWER KEY FROM TEXT FILE =====
+async function loadAnswerKeyFromText() {
+    try {
+        console.log("📥 Loading answer key from text file...");
+        
+        const possibleFiles = [
+            'key.txt',
+            'Answer/key.txt',
+            'Answers/key.txt',
+            'Answers/Key/key.txt',
+            'Key/key.txt',
+            'answer_key.txt',
+            'answers.txt',
+            'data/key.txt',
+            '../key.txt',
+            './key.txt'
+        ];
+        
+        let response = null;
+        let fileUsed = '';
+        
+        for (const filePath of possibleFiles) {
+            console.log(`Trying to load text: ${filePath}`);
+            try {
+                response = await fetch(filePath);
+                if (response.ok) {
+                    fileUsed = filePath;
+                    console.log(`✅ Found text answer key at: ${filePath}`);
+                    break;
+                }
+            } catch (err) {
+                console.log(`❌ Text not found: ${filePath}`);
+                continue;
+            }
+        }
+        
+        if (!response || !response.ok) {
+            console.warn("⚠️ Could not find text answer key file.");
+            return false;
         }
         
         const text = await response.text();
-        console.log(`✅ Answer key loaded from: ${fileUsed}`);
-        console.log(`📄 File content preview (first 200 chars): ${text.substring(0, 200)}...`);
+        console.log(`✅ Text answer key loaded from: ${fileUsed}`);
+        console.log(`📄 Text content preview (first 500 chars): ${text.substring(0, 500)}...`);
         
-        // Parse the answer key
+        // Parse the text file
         const lines = text.trim().split('\n').filter(line => line.trim() !== '');
-        console.log(`📊 Found ${lines.length} lines in answer key`);
+        console.log(`📊 Found ${lines.length} lines in text file`);
         
         if (lines.length === 0) {
-            console.error("Answer key file is empty!");
-            showError("Answer key file is empty. Contact administrator.");
-            initializeDemoData();
-            return;
+            console.error("Text file is empty!");
+            return false;
         }
         
-        // Parse the answer key based on the exact format you need
-        const parsedAnswers = [];
+        // Try different parsing methods
+        let parsedAnswers = [];
         
-        // If all answers are in one line separated by commas
-        if (lines.length === 1 && lines[0].includes(',')) {
-            const answers = lines[0].split(',').map(a => a.trim().toUpperCase());
-            if (answers.length === 75) {
-                parsedAnswers.push(...answers);
-                console.log(`✅ Parsed 75 comma-separated answers`);
-            }
-        } 
-        // If each line has 5 MCQ answers (like ABCDABCD... format)
-        else if (lines.every(line => line.trim().length === 5 && /^[ABCD]+$/.test(line.trim()))) {
+        // Method 1: One answer per line (75 lines)
+        if (lines.length >= 75) {
+            parsedAnswers = lines.slice(0, 75).map(line => line.trim().toUpperCase());
+            console.log("Using Method 1: One answer per line");
+        }
+        // Method 2: Groups of 5 answers per line (15 lines for 75 answers)
+        else if (lines.length >= 15 && lines.every(line => line.trim().length === 5)) {
+            parsedAnswers = [];
             lines.forEach(line => {
                 const trimmedLine = line.trim().toUpperCase();
-                parsedAnswers.push(...trimmedLine.split(''));
+                if (trimmedLine.length === 5) {
+                    parsedAnswers.push(...trimmedLine.split(''));
+                }
             });
+            console.log("Using Method 2: Groups of 5 answers per line");
         }
-        // Try to parse mixed format (MCQ + Numerical)
+        // Method 3: Comma-separated in one line
+        else if (lines.length === 1 && lines[0].includes(',')) {
+            parsedAnswers = lines[0].split(',').map(a => a.trim().toUpperCase()).slice(0, 75);
+            console.log("Using Method 3: Comma-separated in one line");
+        }
+        // Method 4: Extract all valid answers
         else {
-            let answerIndex = 0;
-            let lineIndex = 0;
-            
-            // Physics MCQ (Q1-20)
-            while (answerIndex < 20 && lineIndex < lines.length) {
-                const line = lines[lineIndex].trim().toUpperCase();
-                if (line.length === 5 && /^[ABCD]+$/.test(line)) {
-                    parsedAnswers.push(...line.split(''));
-                    answerIndex += 5;
-                    lineIndex++;
-                } else {
-                    // Try to parse individual answers
-                    const chars = line.split('').filter(c => /[ABCD]/.test(c));
-                    parsedAnswers.push(...chars.slice(0, Math.min(chars.length, 20 - answerIndex)));
-                    answerIndex += chars.length;
-                    lineIndex++;
-                }
-            }
-            
-            // Physics Numerical (Q21-25)
-            for (let i = 0; i < 5 && lineIndex < lines.length; i++) {
-                const line = lines[lineIndex].trim();
-                if (/^-?\d+(\.\d+)?$/.test(line)) {
-                    parsedAnswers.push(line);
-                    lineIndex++;
-                } else {
-                    // Try to extract numbers
-                    const numbers = line.match(/-?\d+(\.\d+)?/g);
-                    if (numbers) {
-                        parsedAnswers.push(numbers[0]);
-                        lineIndex++;
-                    } else {
-                        parsedAnswers.push("0"); // Default value
-                        lineIndex++;
-                    }
-                }
-            }
-            
-            // Chemistry MCQ (Q26-45)
-            while (answerIndex < 45 && lineIndex < lines.length) {
-                const line = lines[lineIndex].trim().toUpperCase();
-                if (line.length === 5 && /^[ABCD]+$/.test(line)) {
-                    parsedAnswers.push(...line.split(''));
-                    answerIndex += 5;
-                    lineIndex++;
-                } else {
-                    const chars = line.split('').filter(c => /[ABCD]/.test(c));
-                    parsedAnswers.push(...chars.slice(0, Math.min(chars.length, 45 - answerIndex)));
-                    answerIndex += chars.length;
-                    lineIndex++;
-                }
-            }
-            
-            // Chemistry Numerical (Q46-50)
-            for (let i = 0; i < 5 && lineIndex < lines.length; i++) {
-                const line = lines[lineIndex].trim();
-                if (/^-?\d+(\.\d+)?$/.test(line)) {
-                    parsedAnswers.push(line);
-                    lineIndex++;
-                } else {
-                    const numbers = line.match(/-?\d+(\.\d+)?/g);
-                    if (numbers) {
-                        parsedAnswers.push(numbers[0]);
-                        lineIndex++;
-                    } else {
-                        parsedAnswers.push("0");
-                        lineIndex++;
-                    }
-                }
-            }
-            
-            // Maths MCQ (Q51-70)
-            while (answerIndex < 70 && lineIndex < lines.length) {
-                const line = lines[lineIndex].trim().toUpperCase();
-                if (line.length === 5 && /^[ABCD]+$/.test(line)) {
-                    parsedAnswers.push(...line.split(''));
-                    answerIndex += 5;
-                    lineIndex++;
-                } else {
-                    const chars = line.split('').filter(c => /[ABCD]/.test(c));
-                    parsedAnswers.push(...chars.slice(0, Math.min(chars.length, 70 - answerIndex)));
-                    answerIndex += chars.length;
-                    lineIndex++;
-                }
-            }
-            
-            // Maths Numerical (Q71-75)
-            for (let i = 0; i < 5 && lineIndex < lines.length; i++) {
-                const line = lines[lineIndex].trim();
-                if (/^-?\d+(\.\d+)?$/.test(line)) {
-                    parsedAnswers.push(line);
-                    lineIndex++;
-                } else {
-                    const numbers = line.match(/-?\d+(\.\d+)?/g);
-                    if (numbers) {
-                        parsedAnswers.push(numbers[0]);
-                        lineIndex++;
-                    } else {
-                        parsedAnswers.push("0");
-                        lineIndex++;
-                    }
-                }
-            }
-        }
-        
-        // Ensure we have exactly 75 answers
-        if (parsedAnswers.length !== 75) {
-            console.warn(`⚠️ Expected 75 answers but got ${parsedAnswers.length}. Using simple parsing...`);
-            
-            // Try simpler approach: extract all valid answers from text
             const allText = text.toUpperCase();
-            const mcqAnswers = allText.match(/[ABCD]/g) || [];
-            const numAnswers = allText.match(/-?\d+(\.\d+)?/g) || [];
+            // Extract MCQ answers (A, B, C, D)
+            const mcqMatches = allText.match(/[ABCD]/g) || [];
+            // Extract numerical answers
+            const numMatches = allText.match(/-?\d+(\.\d+)?/g) || [];
             
-            parsedAnswers.length = 0;
+            console.log(`Found ${mcqMatches.length} MCQ answers and ${numMatches.length} numerical answers`);
             
-            // Add MCQ answers for positions 1-20, 26-45, 51-70
+            // Build answer array
+            parsedAnswers = [];
             let mcqIndex = 0;
-            for (let i = 1; i <= 75; i++) {
-                if ((i >= 1 && i <= 20) || (i >= 26 && i <= 45) || (i >= 51 && i <= 70)) {
+            let numIndex = 0;
+            
+            for (let qNum = 1; qNum <= 75; qNum++) {
+                if ((qNum >= 1 && qNum <= 20) || (qNum >= 26 && qNum <= 45) || (qNum >= 51 && qNum <= 70)) {
                     // MCQ question
-                    if (mcqIndex < mcqAnswers.length) {
-                        parsedAnswers.push(mcqAnswers[mcqIndex]);
+                    if (mcqIndex < mcqMatches.length) {
+                        parsedAnswers.push(mcqMatches[mcqIndex]);
                         mcqIndex++;
                     } else {
                         parsedAnswers.push('A'); // Default
                     }
                 } else {
                     // Numerical question
-                    const numIndex = i - 21; // Adjust for numerical positions
-                    if (numIndex < numAnswers.length) {
-                        parsedAnswers.push(numAnswers[numIndex]);
+                    if (numIndex < numMatches.length) {
+                        parsedAnswers.push(numMatches[numIndex]);
+                        numIndex++;
                     } else {
                         parsedAnswers.push('0'); // Default
                     }
                 }
             }
+            console.log("Using Method 4: Extracted all valid answers");
         }
         
-        // Final validation
+        // Ensure we have exactly 75 answers
         if (parsedAnswers.length !== 75) {
-            console.error(`❌ Still have ${parsedAnswers.length} answers. Need exactly 75. Using demo data.`);
-            showError(`Answer key format error. Found ${parsedAnswers.length} answers, need 75. Using demo data.`);
-            initializeDemoData();
-            return;
+            console.warn(`⚠️ Expected 75 answers but got ${parsedAnswers.length}. Padding or trimming...`);
+            
+            if (parsedAnswers.length < 75) {
+                // Pad with defaults
+                while (parsedAnswers.length < 75) {
+                    const qNum = parsedAnswers.length + 1;
+                    if ((qNum >= 1 && qNum <= 20) || (qNum >= 26 && qNum <= 45) || (qNum >= 51 && qNum <= 70)) {
+                        parsedAnswers.push('A');
+                    } else {
+                        parsedAnswers.push('0');
+                    }
+                }
+            } else {
+                // Trim to 75
+                parsedAnswers = parsedAnswers.slice(0, 75);
+            }
         }
         
         // Validate each answer
@@ -2948,20 +3075,20 @@ async function loadAnswerKeyFromFolder() {
             images.push(`questions/${i}.png`);
         }
         
-        console.log("✅ Answer key successfully loaded - 75 answers");
+        console.log("✅ Text Answer key successfully loaded - 75 answers");
         console.log("Answer key sample (first 10):", answerKey.slice(0, 10));
         console.log("Answer key sample (last 10):", answerKey.slice(65, 75));
         
-        // Show success message
-        showToast('✅ Answer key loaded successfully!', 'success', 3000);
+        showToast('✅ Text Answer key loaded successfully!', 'success', 3000);
         
         clearErrors();
         validateStudentInputs();
+        return true;
         
     } catch (error) {
-        console.error("❌ Error loading answer key:", error);
-        showError("Error loading answer key. Using demo data.");
-        initializeDemoData();
+        console.error("❌ Error loading text answer key:", error);
+        showError("Error loading text answer key.");
+        return false;
     }
 }
 
@@ -3015,6 +3142,7 @@ function initializeDemoData() {
     validateStudentInputs();
     console.log('✅ Demo Data Ready - 75 questions');
     console.log('Demo answer key sample:', answerKey.slice(0, 10));
+    showToast('⚠️ Using demo data (no answer key found)', 'warning', 5000);
 }
 
 // ===== PREPARE EXAM DATA =====
@@ -3196,8 +3324,7 @@ function renderQuestion() {
       </div>
       
       ${optionsHTML}
-    </div>
-  `;
+    `;
   
   if (questionType !== 'fill-blank') {
     document.querySelectorAll('.optBtn').forEach(btn => {
@@ -4553,8 +4680,27 @@ window.addEventListener('load', function() {
   
   document.getElementById('accessCode').focus();
   
-  // Load answer key from folder
-  loadAnswerKeyFromFolder();
+  // Load answer key - try CSV first, then text, then demo data
+  console.log("🔄 Starting answer key loading process...");
+  
+  // Try to load from CSV file
+  loadAnswerKeyFromCSV().then(csvLoaded => {
+    if (csvLoaded) {
+      console.log("✅ Answer key loaded from CSV file");
+    } else {
+      // If CSV not found, try text file
+      console.log("📄 CSV not found, trying text file...");
+      loadAnswerKeyFromText().then(textLoaded => {
+        if (textLoaded) {
+          console.log("✅ Answer key loaded from text file");
+        } else {
+          // If neither found, use demo data
+          console.log("⚠️ No answer key files found, using demo data");
+          initializeDemoData();
+        }
+      });
+    }
+  });
   
   // Initialize power loss protection
   setTimeout(() => {
@@ -4564,6 +4710,7 @@ window.addEventListener('load', function() {
 
 console.log("🎯 LFJC Online Exam System Loaded Successfully");
 console.log("✅ 75 questions with specified structure");
+console.log("✅ Answer key loading: CSV → Text → Demo (fallback)");
 console.log("✅ Google Forms submission is now ACTIVE");
 console.log("✅ Results will be sent to assigned Google Form");
 console.log("✅ System Tray/Taskbar violation detection ACTIVE");
