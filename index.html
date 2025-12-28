@@ -141,7 +141,7 @@ footer {
   text-align: right;
 }
 
-input[type="text"] {
+input[type="text"], input[type="number"] {
   padding: 12px 14px;
   font-size: 1.1rem;
   border-radius: 10px;
@@ -151,7 +151,7 @@ input[type="text"] {
   transition: var(--transition);
 }
 
-input[type="text"]:focus {
+input[type="text"]:focus, input[type="number"]:focus {
   border-color: var(--primary-color);
   box-shadow: 0 0 0 3px rgba(75, 0, 130, 0.2);
 }
@@ -929,20 +929,560 @@ table td, table th {
   cursor: pointer;
   margin: 10px;
 }
+
+/* ===== UPDATED SMALLER 3x3 NUMERICAL KEYPAD STYLES ===== */
+.numerical-keypad {
+  margin: 10px auto;
+  max-width: 210px;
+}
+
+.keypad-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+  padding: 8px;
+  background: #f8f9fa;
+  border-radius: 8px;
+  border: 1px solid #4B0082;
+  box-shadow: 0 2px 4px rgba(75, 0, 130, 0.1);
+}
+
+.num-key-btn {
+  width: 45px;
+  height: 45px;
+  font-size: 18px;
+  font-weight: bold;
+  border: 1px solid #4B0082;
+  border-radius: 6px;
+  background: linear-gradient(145deg, #ffffff, #f0f0ff);
+  color: #4B0082;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 0 rgba(75, 0, 130, 0.2);
+}
+
+.num-key-btn:hover {
+  background: linear-gradient(145deg, #f0f0ff, #e6e6fa);
+  transform: translateY(-1px);
+  box-shadow: 0 3px 0 rgba(75, 0, 130, 0.3);
+}
+
+.num-key-btn:active {
+  transform: translateY(1px);
+  box-shadow: 0 1px 0 rgba(75, 0, 130, 0.2);
+}
+
+.num-key-btn:focus {
+  outline: 2px solid #4B0082 !important;
+  outline-offset: 1px;
+  box-shadow: 0 0 0 2px rgba(75, 0, 130, 0.2) !important;
+}
+
+.special-btn {
+  font-size: 18px;
+}
+
+.clear-btn {
+  background: linear-gradient(145deg, #ff9900, #ff8c00);
+  color: white;
+  border-color: #ff8c00;
+}
+
+.submit-num-btn {
+  background: linear-gradient(145deg, #32CD32, #228B22);
+  color: white;
+  border-color: #228B22;
+  font-size: 20px;
+}
+
+/* Tab navigation focus styles */
+.fill-blank-input:focus {
+  outline: 2px solid #4B0082 !important;
+  outline-offset: 1px;
+  box-shadow: 0 0 0 2px rgba(75, 0, 130, 0.2) !important;
+}
+
+.optBtn:focus {
+  outline: 2px solid #4B0082 !important;
+  outline-offset: 1px;
+  box-shadow: 0 0 0 2px rgba(75, 0, 130, 0.2) !important;
+}
+
+.navBtn:focus {
+  outline: 2px solid #4B0082 !important;
+  outline-offset: 1px;
+  box-shadow: 0 0 0 2px rgba(75, 0, 130, 0.2) !important;
+}
+
+.palette-btn:focus {
+  outline: 2px solid #4B0082 !important;
+  outline-offset: 1px;
+  box-shadow: 0 0 0 2px rgba(75, 0, 130, 0.2) !important;
+}
+
+/* Responsive keypad */
+@media (max-width: 400px) {
+  .keypad-grid {
+    gap: 5px;
+    padding: 6px;
+  }
+  
+  .num-key-btn {
+    width: 40px;
+    height: 40px;
+    font-size: 16px;
+  }
+}
+
+/* ===== TOAST NOTIFICATION STYLES ===== */
+.toast {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  padding: 12px 24px;
+  border-radius: 8px;
+  color: white;
+  font-weight: bold;
+  z-index: 10000;
+  animation: toastSlideIn 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.toast-success {
+  background: linear-gradient(145deg, #32CD32, #228B22);
+}
+
+.toast-warning {
+  background: linear-gradient(145deg, #FFA500, #FF8C00);
+}
+
+.toast-error {
+  background: linear-gradient(145deg, #FF4500, #DC143C);
+}
+
+.toast-info {
+  background: linear-gradient(145deg, #1E90FF, #4682B4);
+}
+
+@keyframes toastSlideIn {
+  from { transform: translateX(100%); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes toastSlideOut {
+  from { transform: translateX(0); opacity: 1; }
+  to { transform: translateX(100%); opacity: 0; }
+}
+
+/* ===== TAB SWITCH WARNING STYLES ===== */
+.tab-switch-warning {
+  position: fixed;
+  top: 100px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: linear-gradient(145deg, #FFA500, #FF8C00);
+  color: white;
+  padding: 20px 30px;
+  border-radius: 10px;
+  font-weight: bold;
+  z-index: 10001;
+  text-align: center;
+  box-shadow: 0 5px 20px rgba(255, 165, 0, 0.3);
+  animation: slideDown 0.5s ease;
+  font-size: 18px;
+  min-width: 350px;
+  max-width: 80%;
+  border: 2px solid #ff8c00;
+}
+
+@keyframes slideDown {
+  from { top: 50px; opacity: 0; }
+  to { top: 100px; opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { top: 100px; opacity: 1; }
+  to { top: 50px; opacity: 0; }
+}
+
+@keyframes shakeWarning {
+  0%, 100% { transform: translateX(-50%); }
+  10%, 30%, 50%, 70%, 90% { transform: translateX(calc(-50% - 5px)); }
+  20%, 40%, 60%, 80% { transform: translateX(calc(-50% + 5px)); }
+}
+
+@keyframes slideIn {
+  from { transform: translateY(-20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes slideOut {
+  from { transform: translateY(0); opacity: 1; }
+  to { transform: translateY(-20px); opacity: 0; }
+}
+
+@keyframes fadeInOut {
+  0% { opacity: 0; transform: translateY(-10px); }
+  20% { opacity: 1; transform: translateY(0); }
+  80% { opacity: 1; transform: translateY(0); }
+  100% { opacity: 0; transform: translateY(-10px); }
+}
+
+/* ===== CHROME MENU BLUR OVERLAY STYLES ===== */
+#chromeMenuBlurOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 50%;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  z-index: 2147483647;
+  pointer-events: none;
+  display: none;
+  transition: opacity 0.3s ease;
+}
+
+/* ===== FULL-SCREEN WARNING OVERLAY STYLES ===== */
+#fullscreen-warning-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.95);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  z-index: 2147483646;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  color: white;
+  font-family: Arial, sans-serif;
+  text-align: center;
+}
+
+#fullscreen-warning-overlay .warning-content {
+  background: rgba(255, 0, 0, 0.2);
+  padding: 40px;
+  border-radius: 20px;
+  border: 3px solid rgba(255, 0, 0, 0.5);
+  max-width: 500px;
+  width: 90%;
+  backdrop-filter: blur(10px);
+}
+
+#fullscreen-warning-overlay h2 {
+  color: #ff6b6b;
+  font-size: 28px;
+  margin-bottom: 15px;
+}
+
+#fullscreen-warning-overlay p {
+  font-size: 18px;
+  margin-bottom: 25px;
+  line-height: 1.5;
+}
+
+#enter-fullscreen-btn {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  padding: 15px 40px;
+  font-size: 18px;
+  border-radius: 25px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+}
+
+#enter-fullscreen-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+}
+
+#enter-fullscreen-btn:active {
+  transform: translateY(0);
+}
+
+@keyframes fadeInOut {
+  0% { opacity: 0; transform: translateX(-50%) translateY(-10px); }
+  20% { opacity: 1; transform: translateX(-50%) translateY(0); }
+  80% { opacity: 1; transform: translateX(-50%) translateY(0); }
+  100% { opacity: 0; transform: translateX(-50%) translateY(-10px); }
+}
+
+#chromeMenuWarning {
+  font-size: 16px;
+  border: 2px solid white;
+}
+
+#chromeMenuWarning small {
+  font-size: 12px;
+  opacity: 0.9;
+}
+
+/* ===== POWER LOSS RECOVERY OVERLAY STYLES ===== */
+#powerLossRecoveryOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.95);
+  z-index: 99999;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-family: Arial, sans-serif;
+  text-align: center;
+}
+
+#powerLossRecoveryBox {
+  background: linear-gradient(145deg, #1a1a2e, #162447);
+  padding: 40px;
+  border-radius: 20px;
+  max-width: 600px;
+  width: 90%;
+  border: 3px solid #4B0082;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+#powerLossRecoveryBox h2 {
+  color: #4B0082;
+  margin-bottom: 25px;
+  font-size: 28px;
+}
+
+.recovery-details {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 20px;
+  border-radius: 10px;
+  margin: 20px 0;
+  text-align: left;
+}
+
+.recovery-details p {
+  margin: 10px 0;
+  font-size: 16px;
+}
+
+.recovery-progress {
+  margin: 20px 0;
+  padding: 15px;
+  background: rgba(75, 0, 130, 0.2);
+  border-radius: 10px;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 10px;
+  background: #333;
+  border-radius: 5px;
+  margin: 10px 0;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #4B0082, #8A2BE2);
+  border-radius: 5px;
+  transition: width 0.3s ease;
+}
+
+.recovery-options {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 30px;
+}
+
+.recovery-btn {
+  padding: 12px 30px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+#resumeExamRecoveryBtn {
+  background: linear-gradient(145deg, #32CD32, #228B22);
+  color: white;
+}
+
+#discardExamRecoveryBtn {
+  background: linear-gradient(145deg, #dc3545, #c82333);
+  color: white;
+}
+
+.recovery-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* ===== CONNECTION STATUS STYLES ===== */
+#connectionStatus {
+  position: fixed;
+  bottom: 50px;
+  right: 10px;
+  background: rgba(0, 0, 0, 0.85);
+  color: white;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+  border-left: 3px solid #32CD32;
+  transition: all 0.3s ease;
+}
+
+#autoSaveIndicator {
+  position: fixed;
+  bottom: 85px;
+  right: 10px;
+  background: rgba(75, 0, 130, 0.9);
+  color: white;
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-size: 11px;
+  z-index: 9999;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+#autoSaveIndicator.show {
+  opacity: 1;
+}
+
+/* ===== RESUME EXAM STYLES ===== */
+#resumeExamSection {
+  display: none;
+  margin-top: 20px;
+  padding: 20px;
+  background: #fff3cd;
+  border: 2px solid #ffc107;
+  border-radius: 10px;
+  text-align: center;
+}
+
+#resumeExamSection h3 {
+  color: #856404;
+  margin-bottom: 15px;
+}
+
+.resume-student-info {
+  background: white;
+  padding: 15px;
+  border-radius: 8px;
+  margin: 15px 0;
+  text-align: left;
+  display: inline-block;
+}
+
+.resume-options {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 20px;
+  flex-wrap: wrap;
+}
+
+.resume-btn {
+  padding: 10px 25px;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.resume-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+#resumeExamBtn {
+  background: linear-gradient(145deg, #32CD32, #228B22);
+  color: white;
+}
+
+#startNewBtn {
+  background: linear-gradient(145deg, #dc3545, #c82333);
+  color: white;
+}
+
+@media (max-width: 600px) {
+  .resume-options {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .resume-btn {
+    width: 80%;
+  }
+}
 </style>
 </head>
 
 <body>
 
+<!-- Power Loss Recovery Overlay -->
+<div id="powerLossRecoveryOverlay">
+  <div id="powerLossRecoveryBox">
+    <h2>⚡ EXAM RECOVERY AVAILABLE</h2>
+    
+    <div class="recovery-details">
+      <p id="recoveryStudentName"><strong>Student:</strong> Loading...</p>
+      <p id="recoveryLastSave"><strong>Last Save:</strong> Loading...</p>
+      <p id="recoveryProgress"><strong>Progress:</strong> Loading...</p>
+      <p id="recoveryTimeLeft"><strong>Time Remaining:</strong> Loading...</p>
+    </div>
+    
+    <div class="recovery-progress">
+      <p><strong>Recovery Status:</strong> <span id="recoveryStatus">Checking data...</span></p>
+      <div class="progress-bar">
+        <div class="progress-fill" id="recoveryProgressBar" style="width: 0%"></div>
+      </div>
+    </div>
+    
+    <div class="recovery-options">
+      <button id="resumeExamRecoveryBtn" class="recovery-btn">✅ RESUME EXAM</button>
+      <button id="discardExamRecoveryBtn" class="recovery-btn">🗑️ START FRESH</button>
+    </div>
+    
+    <p style="margin-top: 20px; font-size: 14px; color: #aaa;">
+      <em>Your exam progress was automatically saved. You can resume where you left off.</em>
+    </p>
+  </div>
+</div>
+
 <!-- Access Denied Screen - ALWAYS SHOWS FIRST -->
 <div id="accessDenied" class="access-denied">
     <h1>LFJC ONLINE EXAMINATION</h1>
-     <p>MATHS 30 QSTNS,PHYSICS 15 QSTNS ,CHEMISTRY 15 QSTNS</p>
-      <p>CORRECT ANSWER= + 4 MARKS ,WRONG ANSWER = -1 MARK</p>
-  <p> First: Answer only questions you are sure about.
-  If you spend more than 2-3 minutes on a question without a clear path to the answer, immediately click Mark for Review and move on <p>
- <p>Second : Tackle marked Review questions. <p>
-  <input type="password" id="accessCode" class="access-code-input" placeholder="Enter Access Code">
+    <p style="font-size: 1.2em; margin: 10px 0;">TOTAL 75 QUESTIONS</p>
+    <p style="margin: 5px 0;">• Maths: Q1-20 (MCQ), Q21-25 (Numerical Input)</p>
+    <p style="margin: 5px 0;">• Physics: Q26-45 (MCQ), Q46-50 (Numerical Input)</p>
+    <p style="margin: 5px 0;">• Chemistry: Q51-70 (MCQ), Q71-75 (Numerical Input)</p>
+    <p style="margin: 10px 0; font-weight: bold;">CORRECT ANSWER + 4 MARKS</p>
+    <p style="margin: 5px 0; font-weight: bold;">WRONG ANSWER -1 MARK</p>
+    <p style="margin: 15px 0; max-width: 600px; line-height: 1.5;">
+        <strong>Instructions:</strong><br>
+        1. First Answer only questions you are sure about<br>
+        2. If you spend more than 2-3 minutes on a question without a clear path to the answer, immediately click Mark for Review and move on<br>
+        3. Second Tackle marked/review questions
+    </p>
+    <input type="password" id="accessCode" class="access-code-input" placeholder="Enter Access Code">
     <button id="verifyAccess" class="verify-btn">VERIFY ACCESS</button>
     <div id="accessError" class="access-error">❌ Invalid access code. Please try again.</div>
 </div>
@@ -966,6 +1506,22 @@ table td, table th {
     <p>Your responses will be submitted to this form</p>
   </div>
 
+  <!-- RESUME EXAM SECTION -->
+  <div id="resumeExamSection">
+    <h3>🔄 Exam In Progress Found</h3>
+    <div class="resume-student-info">
+      <p><strong>Student:</strong> <span id="resumeStudentName">Loading...</span></p>
+      <p><strong>Section:</strong> <span id="resumeSection">Loading...</span></p>
+      <p><strong>Progress:</strong> <span id="resumeProgress">Loading...</span></p>
+      <p><strong>Time Left:</strong> <span id="resumeTimeLeft">Loading...</span></p>
+    </div>
+    <p style="margin-bottom: 15px;">You have an exam in progress from a previous session.</p>
+    <div class="resume-options">
+      <button id="resumeExamBtn" class="resume-btn">Continue Exam</button>
+      <button id="startNewBtn" class="resume-btn">Start New Exam</button>
+    </div>
+  </div>
+
   <!-- RESUBMISSION SECTION -->
   <div id="resubmissionSection">
     <h3>🔄 Re-submission Required</h3>
@@ -984,13 +1540,6 @@ table td, table th {
   <div class="form-group"><button id="stuStartBtn" style="display:none;">Start Exam</button></div>
   <p id="studentMsg"></p>
   <div id="errorMessages"></div>
-  
-  <div id="resumeExamSection" style="display:none; margin-top: 20px;">
-    <div class="security-message">
-      <p>You have an exam in progress. Would you like to resume?</p>
-      <button id="resumeExamBtn" class="navBtn">Resume Exam</button>
-    </div>
-  </div>
 </div>
 
 <div id="examArea" style="display:none;">
@@ -1111,57 +1660,62 @@ table td, table th {
 </div>
 <div id="screenshotBlock"></div>
 
+<!-- Chrome Menu Blur Overlay -->
+<div id="chromeMenuBlurOverlay"></div>
+
+<!-- Connection Status Indicator (will be created by JavaScript) -->
+<div id="autoSaveIndicator">Auto-saved ✓</div>
+
 <script>
 // ===== CONFIGURATION =====
 const MARK_PER_CORRECT = 4, MARK_PER_WRONG = -1;
-const EXAM_DURATION_MINUTES = 120;
+const EXAM_DURATION_MINUTES = 180; // 3 hours for 75 questions
 const EXAM_DURATION_MS = EXAM_DURATION_MINUTES * 60 * 1000;
 const STORAGE_KEY_PREFIX = "lfjc_exam_";
-const MAX_QUESTIONS = 60;
+const MAX_QUESTIONS = 75;
 const ACCESS_CODE = "lfjc2025";
 const ADMIN_PASSWORD = "admin2025";
 const RESUBMISSION_PASSWORD = "resubmit2025";
 const RESUBMISSION_WINDOW_HOURS = 24;
 
-// ===== ENHANCED GOOGLE FORMS INTEGRATION =====
-const GOOGLE_FORMS = {
-    'A': "https://docs.google.com/forms/d/e/1FAIpQLSe4uuphhY4-p5jdTZqxG_ZZUKAhQZF1ytyNizPXb0n3L85JIw/formResponse",
-    'B': "https://docs.google.com/forms/d/e/1FAIpQLSc3JIcnUysvUtH12QWpHG9wAF4vd1NgEYqeyHwNP0UEkPqi5w/formResponse", 
-    'C': "https://docs.google.com/forms/d/e/1FAIpQLScqYdTGoD4l0jJvzYw0tdBNRSMPepnGtOOowOXYwDFov43KHg/formResponse",
-    'D': "https://docs.google.com/forms/d/e/1FAIpQLSfjAyDlY-5BAF5rPvzQS0AeTI6Vs2Rkri0V6_miA0mRivZAEg/formResponse",
-    'E': "https://docs.google.com/forms/d/e/1FAIpQLSfK6Skl6Uxj8VyGnhhqfdPHcJ8mbcgpzIKLpWFElzdeQSKMgA/formResponse",
-    'F': "https://docs.google.com/forms/d/e/1FAIpQLSeP-Gx2XnUg_Q17asOOeYzkoGtLykVIcQ2W006YTqTpE7xY6g/formResponse",
-    'G': "https://docs.google.com/forms/d/e/1FAIpQLSe1vg_I5XR3ljr-UNFi-MXxUgjdTDyrVbHxqi_dkvtmYGUTEA/formResponse",
-    'H': "https://docs.google.com/forms/d/e/1FAIpQLScyv8cps4StN2UXrsXqNdLu5UBR7t0Vwk8WSnynU2tvracs1g/formResponse",
-    'I': "https://docs.google.com/forms/d/e/1FAIpQLSeyen2hSdhRwztpWnH6lyuL91ZROqwDMKIaa4gN_e-Xvyvb_g/formResponse",
-    'J': "https://docs.google.com/forms/d/e/1FAIpQLSelbDi1n1EKWu7G0I92hTML6vWUO2c55p2dqrEOQ7cWflaSNg/formResponse"
+// POWER LOSS PROTECTION CONFIG
+const AUTO_SAVE_INTERVAL = 15; // seconds
+const RECOVERY_WINDOW_HOURS = 4; // Allow recovery within 4 hours
+const STORAGE_KEYS = {
+    EXAM_PROGRESS: 'lfjc_exam_progress_v2',
+    EXAM_METADATA: 'lfjc_exam_metadata',
+    LAST_SAVE_TIME: 'lfjc_last_save',
+    ANSWERS_BACKUP: 'lfjc_answers_backup',
+    EXAM_STATE: 'lfjc_exam_state',
+    PENDING_SUBMISSIONS: 'lfjc_pending_submissions'
 };
 
-// Common form field mappings (same for all forms)
-const COMMON_FIELDS = {
-    STUDENT_NAME: "entry.217666919",
-    SECTION: "entry.2006392966", 
-    ROLL_NUMBER: "entry.547275105",
-    ADMISSION_NUMBER: "entry.1234063852",
-    MATHS_MARKS: "entry.1989859216",
-    PHYSICS_MARKS: "entry.1953974928", 
-    CHEMISTRY_MARKS: "entry.296331194",
-    TOTAL_MARKS: "entry.1289040887",
-    TIMESTAMP: "entry.2139100252"
-};
-
-// Form-specific ALL_ANSWERS field IDs (extracted from your URLs)
-const ANSWERS_FIELDS = {
-    'A': "entry.224183536",  // From Form A URL
-    'B': "entry.2135062491", // From Form B URL
-    'C': "entry.66262823",   // From Form C URL
-    'D': "entry.762314240",  // From Form D URL
-    'E': "entry.109746612",  // From Form E URL
-    'F': "entry.813348755",  // From Form F URL
-    'G': "entry.1184321804", // From Form G URL
-    'H': "entry.64526224",   // From Form H URL
-    'I': "entry.1618336199", // From Form I URL
-    'J': "entry.1279707071"  // From Form J URL
+// QUESTION STRUCTURE CONFIGURATION
+const QUESTION_STRUCTURE = {
+  total: 75,
+  subjects: [
+    { 
+      name: "Maths", 
+      start: 1, 
+      end: 25, 
+      mcqRange: [1, 20], 
+      fillBlanksRange: [21, 25]
+    },
+    { 
+      name: "Physics", 
+      start: 26, 
+      end: 50, 
+      mcqRange: [26, 45], 
+      fillBlanksRange: [46, 50]
+    },
+    { 
+      name: "Chemistry", 
+      start: 51, 
+      end: 75, 
+      mcqRange: [51, 70], 
+      fillBlanksRange: [71, 75]
+    }
+  ]
 };
 
 // ===== GLOBAL VARIABLES =====
@@ -1181,12 +1735,921 @@ let assignedForm = 'A';
 let isResubmission = false;
 let submissionInProgress = new Set();
 let googleFormsSubmissionStatus = 'pending';
+let chromeMenuBlurDetector = null;
+let tabSwitchCount = 0;
+let lastTabSwitchTime = 0;
+let fullScreenExitTimeout = null;
+let autoSaveTimer = null;
+let connectionStatusElement = null;
+let autoSaveIndicator = null;
+let powerLossRecoveryData = null;
+let resumeInProgress = false;
 
 const subjects = ["Maths", "Physics", "Chemistry"];
-let examData = {files: [], subjectNames: [], keys: [], originalOrder: []};
+let examData = {files: [], subjectNames: [], keys: [], originalOrder: [], questionTypes: []};
 let progress = null, timerInterval = null;
 
-// ===== GOOGLE FORMS HELPER FUNCTIONS =====
+// ===== MISSING FUNCTIONS FIX =====
+
+function handleSimpleImageError(imgElement, questionIndex) {
+    console.error(`Image failed to load: ${imgElement.src}`);
+    imgElement.outerHTML = `
+        <div style="padding: 20px; text-align: center; color: red; border: 2px solid red; border-radius: 8px;">
+            <h3>⚠️ Image Not Available</h3>
+            <p>Question image could not be loaded. Please continue with the question.</p>
+        </div>
+    `;
+}
+
+function selectOption(opt) {
+    const idx = progress.currentIndex;
+    
+    if (progress.answers[idx] === opt) {
+        progress.answers[idx] = null;
+        console.log(`Deselected option ${opt} for question ${idx + 1}`);
+    } else {
+        progress.answers[idx] = opt;
+        console.log(`Selected option ${opt} for question ${idx + 1}`);
+    }
+    
+    updateOptionButtons();
+    updatePalette();
+    
+    // Auto-save on answer change
+    if (examInProgress) {
+        setTimeout(() => saveExamProgress(), 500);
+    }
+}
+
+function updateOptionButtons() {
+    const idx = progress.currentIndex;
+    const currentAnswer = progress.answers[idx];
+    
+    document.querySelectorAll('.optBtn').forEach(btn => {
+        const btnOpt = btn.getAttribute('data-opt');
+        btn.classList.toggle('selected', btnOpt === currentAnswer);
+    });
+}
+
+// ===== POWER LOSS PROTECTION SYSTEM =====
+function initPowerLossProtection() {
+    console.log('⚡ Initializing Power Loss Protection System');
+    
+    // Create connection status element
+    createConnectionStatusElement();
+    
+    // Create auto-save indicator
+    createAutoSaveIndicator();
+    
+    // Setup event listeners
+    setupPowerLossEventListeners();
+    
+    // Check for recovery on page load
+    setTimeout(() => checkForPowerLossRecovery(), 1000);
+    
+    // Start auto-save timer
+    startAutoSaveTimer();
+    
+    console.log('✅ Power Loss Protection System Ready');
+}
+
+function createConnectionStatusElement() {
+    connectionStatusElement = document.createElement('div');
+    connectionStatusElement.id = 'connectionStatus';
+    connectionStatusElement.innerHTML = `
+        <span style="color:#32CD32; font-size:16px;">●</span>
+        <span>Online</span>
+    `;
+    document.body.appendChild(connectionStatusElement);
+    updateConnectionStatus(navigator.onLine);
+}
+
+function createAutoSaveIndicator() {
+    autoSaveIndicator = document.getElementById('autoSaveIndicator');
+    if (!autoSaveIndicator) {
+        autoSaveIndicator = document.createElement('div');
+        autoSaveIndicator.id = 'autoSaveIndicator';
+        autoSaveIndicator.textContent = 'Auto-saved ✓';
+        document.body.appendChild(autoSaveIndicator);
+    }
+}
+
+function setupPowerLossEventListeners() {
+    // Online/offline detection
+    window.addEventListener('online', () => {
+        updateConnectionStatus(true);
+        showToast('✅ Internet connection restored', 'success', 3000);
+        syncPendingSubmissions();
+    });
+    
+    window.addEventListener('offline', () => {
+        updateConnectionStatus(false);
+        showToast('⚠️ Internet connection lost. Working offline...', 'warning', 5000);
+        forceSaveProgress();
+    });
+    
+    // Beforeunload (browser/tab close)
+    window.addEventListener('beforeunload', (e) => {
+        if (examInProgress) {
+            forceSaveProgress();
+            // Optional: Show warning
+            e.preventDefault();
+            e.returnValue = 'Your exam progress is being saved. Are you sure you want to leave?';
+            return e.returnValue;
+        }
+    });
+    
+    // Visibility change (tab switch/minimize)
+    document.addEventListener('visibilitychange', () => {
+        if (document.hidden && examInProgress) {
+            saveExamProgress();
+        }
+    });
+}
+
+function updateConnectionStatus(isOnline) {
+    if (!connectionStatusElement) return;
+    
+    if (isOnline) {
+        connectionStatusElement.innerHTML = `
+            <span style="color:#32CD32; font-size:16px;">●</span>
+            <span>Online</span>
+        `;
+        connectionStatusElement.style.borderLeftColor = '#32CD32';
+        connectionStatusElement.title = 'Connected to internet';
+    } else {
+        connectionStatusElement.innerHTML = `
+            <span style="color:#FF6B6B; font-size:16px;">●</span>
+            <span>Offline - Answers saved locally</span>
+        `;
+        connectionStatusElement.style.borderLeftColor = '#FF6B6B';
+        connectionStatusElement.title = 'No internet connection. Answers are being saved locally.';
+    }
+}
+
+function startAutoSaveTimer() {
+    if (autoSaveTimer) clearInterval(autoSaveTimer);
+    
+    autoSaveTimer = setInterval(() => {
+        if (examInProgress && progress) {
+            saveExamProgress();
+            showAutoSaveIndicator();
+        }
+    }, AUTO_SAVE_INTERVAL * 1000);
+}
+
+function showAutoSaveIndicator() {
+    if (!autoSaveIndicator) return;
+    
+    autoSaveIndicator.classList.add('show');
+    setTimeout(() => {
+        autoSaveIndicator.classList.remove('show');
+    }, 2000);
+}
+
+function saveExamProgress() {
+    if (!examInProgress || !progress) return;
+    
+    try {
+        const saveData = {
+            progress: {
+                answers: [...progress.answers],
+                review: [...progress.review],
+                currentIndex: progress.currentIndex,
+                timeLeftSec: progress.timeLeftSec,
+                student: { ...progress.student }
+            },
+            
+            examData: {
+                files: [...examData.files],
+                subjectNames: [...examData.subjectNames],
+                keys: [...examData.keys],
+                originalOrder: [...examData.originalOrder],
+                questionTypes: [...examData.questionTypes]
+            },
+            
+            metadata: {
+                examStartTime: examStartTime,
+                assignedForm: assignedForm,
+                examId: generateExamId(),
+                timestamp: Date.now(),
+                version: '2.0'
+            }
+        };
+        
+        // MULTIPLE REDUNDANT SAVES
+        localStorage.setItem(STORAGE_KEYS.EXAM_PROGRESS, JSON.stringify(saveData));
+        localStorage.setItem(STORAGE_KEYS.ANSWERS_BACKUP, JSON.stringify(progress.answers));
+        localStorage.setItem(STORAGE_KEYS.EXAM_STATE, JSON.stringify({
+            timestamp: Date.now(),
+            currentIndex: progress.currentIndex,
+            timeLeft: progress.timeLeftSec,
+            student: progress.student.name
+        }));
+        localStorage.setItem(STORAGE_KEYS.LAST_SAVE_TIME, Date.now().toString());
+        
+        console.log('💾 Exam progress saved');
+        
+    } catch (error) {
+        console.error('❌ Auto-save failed:', error);
+        saveEmergencyBackup();
+    }
+}
+
+function saveEmergencyBackup() {
+    try {
+        const emergencyData = {
+            answers: progress ? progress.answers : [],
+            timestamp: Date.now(),
+            student: progress ? progress.student.name : 'Unknown'
+        };
+        
+        sessionStorage.setItem('exam_emergency_backup', JSON.stringify(emergencyData));
+        
+    } catch (e) {
+        console.error('❌ Emergency backup failed');
+    }
+}
+
+function forceSaveProgress() {
+    if (examInProgress) {
+        saveExamProgress();
+        showToast('💾 Progress saved locally', 'info', 2000);
+    }
+}
+
+function checkForPowerLossRecovery() {
+    try {
+        const savedProgress = localStorage.getItem(STORAGE_KEYS.EXAM_PROGRESS);
+        if (!savedProgress) {
+            // Also check for resume exam in student entry
+            checkResumeExam();
+            return;
+        }
+        
+        const progressData = JSON.parse(savedProgress);
+        const lastSaveTime = parseInt(localStorage.getItem(STORAGE_KEYS.LAST_SAVE_TIME) || '0');
+        const hoursSinceSave = (Date.now() - lastSaveTime) / (1000 * 60 * 60);
+        
+        if (hoursSinceSave < RECOVERY_WINDOW_HOURS) {
+            powerLossRecoveryData = progressData;
+            showPowerLossRecoveryDialog(progressData, lastSaveTime);
+        } else {
+            clearSavedExam();
+            checkResumeExam();
+        }
+        
+    } catch (error) {
+        console.error('❌ Power loss recovery check failed:', error);
+        checkResumeExam();
+    }
+}
+
+function showPowerLossRecoveryDialog(progressData, lastSaveTime) {
+    const recoveryOverlay = document.getElementById('powerLossRecoveryOverlay');
+    if (!recoveryOverlay) return;
+    
+    const studentName = progressData.progress.student.name;
+    const answeredQuestions = progressData.progress.answers.filter(a => a !== null).length;
+    const totalQuestions = progressData.progress.answers.length;
+    const recoveryTime = new Date(lastSaveTime).toLocaleTimeString();
+    const timeLeft = progressData.progress.timeLeftSec;
+    const minutes = Math.floor(timeLeft / 60);
+    const seconds = timeLeft % 60;
+    
+    document.getElementById('recoveryStudentName').innerHTML = `<strong>Student:</strong> ${studentName}`;
+    document.getElementById('recoveryLastSave').innerHTML = `<strong>Last Save:</strong> ${recoveryTime}`;
+    document.getElementById('recoveryProgress').innerHTML = `<strong>Progress:</strong> ${answeredQuestions}/${totalQuestions} questions answered`;
+    document.getElementById('recoveryTimeLeft').innerHTML = `<strong>Time Remaining:</strong> ${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+    
+    const progressPercent = Math.round((answeredQuestions / totalQuestions) * 100);
+    document.getElementById('recoveryProgressBar').style.width = `${progressPercent}%`;
+    document.getElementById('recoveryStatus').textContent = `${progressPercent}% completed`;
+    
+    recoveryOverlay.style.display = 'flex';
+    
+    document.getElementById('resumeExamRecoveryBtn').onclick = () => resumeFromPowerLoss(progressData);
+    document.getElementById('discardExamRecoveryBtn').onclick = discardPowerLossRecovery;
+}
+
+function resumeFromPowerLoss(progressData) {
+    console.log('🔄 Resuming exam from power loss recovery...');
+    
+    // Hide recovery overlay
+    document.getElementById('powerLossRecoveryOverlay').style.display = 'none';
+    
+    // Hide access denied screen if visible
+    document.getElementById('accessDenied').style.display = 'none';
+    
+    // Show student entry screen
+    document.getElementById('studentEntry').style.display = 'flex';
+    
+    // Auto-fill student information from saved progress
+    const student = progressData.progress.student;
+    document.getElementById('stuName').value = student.name || '';
+    document.getElementById('stuSection').value = student.sec || '';
+    document.getElementById('stuRoll').value = student.roll || '';
+    document.getElementById('stuAdm').value = student.adm || '';
+    
+    // Show form assignment
+    updateFormAssignmentDisplay(student);
+    
+    // Hide the resume section (we're already resuming)
+    document.getElementById('resumeExamSection').style.display = 'none';
+    
+    // Store recovery data globally
+    window.pendingRecoveryData = progressData;
+    
+    // Show start button and modify it for resume
+    document.getElementById('stuStartBtn').style.display = 'inline-block';
+    
+    // Change start button text
+    const startBtn = document.getElementById('stuStartBtn');
+    startBtn.textContent = 'Continue Exam';
+    
+    // Store original click handler
+    const originalClick = startBtn.onclick;
+    
+    // Override click handler for resume
+    startBtn.onclick = function() {
+        if (validateStudentInputs()) {
+            startExamWithRecovery(progressData);
+        }
+    };
+    
+    // Validate to show start button
+    validateStudentInputs();
+    
+    showToast('✅ Recovery data loaded. Click "Continue Exam" to resume.', 'success', 5000);
+}
+
+function startExamWithRecovery(progressData) {
+    console.log('🚀 Starting exam with recovery data...');
+    
+    // Use the recovery data
+    progress = progressData.progress;
+    examData = progressData.examData;
+    examStartTime = progressData.metadata.examStartTime;
+    assignedForm = progressData.metadata.assignedForm;
+    examInProgress = true;
+    
+    // Calculate adjusted time based on elapsed time
+    const timeElapsed = Math.floor((Date.now() - examStartTime) / 1000);
+    progress.timeLeftSec = Math.max(0, EXAM_DURATION_MINUTES * 60 - timeElapsed);
+    
+    // Hide student entry and show exam area
+    document.getElementById('studentEntry').style.display = 'none';
+    document.getElementById('examArea').style.display = 'block';
+    
+    // Initialize exam
+    renderQuestion();
+    renderPalette();
+    startTimer();
+    updateNavButtons();
+    
+    // Enable security
+    examSecurity.enable();
+    
+    showToast('✅ Exam resumed from saved progress', 'success', 4000);
+    
+    // Save progress immediately
+    saveExamProgress();
+}
+
+function discardPowerLossRecovery() {
+    if (confirm('Are you sure you want to discard the saved exam and start fresh?')) {
+        clearSavedExam();
+        document.getElementById('powerLossRecoveryOverlay').style.display = 'none';
+        showToast('🗑️ Saved exam discarded', 'info', 3000);
+        // Show student entry for fresh start
+        document.getElementById('accessDenied').style.display = 'none';
+        document.getElementById('studentEntry').style.display = 'flex';
+    }
+}
+
+function checkResumeExam() {
+    try {
+        const savedProgress = localStorage.getItem(STORAGE_KEYS.EXAM_PROGRESS);
+        if (!savedProgress) return;
+        
+        const progressData = JSON.parse(savedProgress);
+        const lastSaveTime = parseInt(localStorage.getItem(STORAGE_KEYS.LAST_SAVE_TIME) || '0');
+        const hoursSinceSave = (Date.now() - lastSaveTime) / (1000 * 60 * 60);
+        
+        if (hoursSinceSave < RECOVERY_WINDOW_HOURS) {
+            // Show resume section in student entry
+            document.getElementById('resumeExamSection').style.display = 'block';
+            
+            // Fill resume info
+            const student = progressData.progress.student;
+            const answeredQuestions = progressData.progress.answers.filter(a => a !== null).length;
+            const totalQuestions = progressData.progress.answers.length;
+            const timeLeft = progressData.progress.timeLeftSec;
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            
+            document.getElementById('resumeStudentName').textContent = student.name;
+            document.getElementById('resumeSection').textContent = student.sec;
+            document.getElementById('resumeProgress').textContent = `${answeredQuestions}/${totalQuestions} questions`;
+            document.getElementById('resumeTimeLeft').textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            
+            // Setup resume button
+            document.getElementById('resumeExamBtn').onclick = function() {
+                resumeFromPowerLoss(progressData);
+            };
+            
+            // Setup start new button
+            document.getElementById('startNewBtn').onclick = function() {
+                if (confirm('Are you sure you want to start a new exam? The current progress will be lost.')) {
+                    clearSavedExam();
+                    document.getElementById('resumeExamSection').style.display = 'none';
+                    document.getElementById('stuName').value = '';
+                    document.getElementById('stuSection').value = '';
+                    document.getElementById('stuRoll').value = '';
+                    document.getElementById('stuAdm').value = '';
+                    document.getElementById('stuName').focus();
+                    showToast('🗑️ Previous exam cleared', 'info', 3000);
+                }
+            };
+        }
+    } catch (error) {
+        console.error('Error checking resume exam:', error);
+    }
+}
+
+function clearSavedExam() {
+    Object.values(STORAGE_KEYS).forEach(key => {
+        localStorage.removeItem(key);
+    });
+    sessionStorage.removeItem('exam_emergency_backup');
+    window.pendingRecoveryData = null;
+}
+
+function syncPendingSubmissions() {
+    if (!navigator.onLine) return;
+    
+    try {
+        const pendingSubmissions = JSON.parse(localStorage.getItem(STORAGE_KEYS.PENDING_SUBMISSIONS) || '[]');
+        if (pendingSubmissions.length === 0) return;
+        
+        console.log(`🔄 Syncing ${pendingSubmissions.length} pending submissions`);
+        
+        pendingSubmissions.forEach((submission, index) => {
+            setTimeout(() => {
+                console.log(`📤 Syncing submission ${index + 1} for ${submission.student.name}`);
+                pendingSubmissions.splice(index, 1);
+                localStorage.setItem(STORAGE_KEYS.PENDING_SUBMISSIONS, JSON.stringify(pendingSubmissions));
+            }, index * 1000);
+        });
+        
+        if (pendingSubmissions.length > 0) {
+            showToast(`🔄 Syncing ${pendingSubmissions.length} saved submissions`, 'info', 4000);
+        }
+        
+    } catch (error) {
+        console.error('Error syncing pending submissions:', error);
+    }
+}
+
+// ===== TOAST NOTIFICATION FUNCTION =====
+function showToast(message, type = 'info', duration = 3000) {
+    const existingToasts = document.querySelectorAll('.toast');
+    existingToasts.forEach(toast => {
+        toast.style.animation = 'toastSlideOut 0.3s ease';
+        setTimeout(() => {
+            if (toast.parentNode) {
+                toast.parentNode.removeChild(toast);
+            }
+        }, 300);
+    });
+    
+    const toast = document.createElement('div');
+    toast.className = `toast toast-${type}`;
+    toast.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        padding: 15px 25px;
+        border-radius: 8px;
+        color: white;
+        font-weight: bold;
+        z-index: 10000;
+        animation: toastSlideIn 0.3s ease;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        font-size: 16px;
+        min-width: 300px;
+        text-align: center;
+    `;
+    
+    toast.textContent = message;
+    document.body.appendChild(toast);
+    
+    setTimeout(() => {
+        toast.style.animation = 'toastSlideOut 0.3s ease';
+        setTimeout(() => {
+            if (toast.parentNode) {
+                document.body.removeChild(toast);
+            }
+        }, 300);
+    }, duration);
+}
+
+// ===== TAB SWITCH WARNING FUNCTION =====
+function showTabSwitchWarning(count) {
+    const existingWarning = document.querySelector('.tab-switch-warning');
+    if (existingWarning) {
+        existingWarning.style.animation = 'slideUp 0.5s ease';
+        setTimeout(() => {
+            if (existingWarning.parentNode) {
+                existingWarning.parentNode.removeChild(existingWarning);
+            }
+        }, 500);
+    }
+    
+    let message = '';
+    if (count === 1) {
+        message = '⚠️ Warning: Tab switching detected (1/3).';
+    } else if (count === 2) {
+        message = '⚠️ Warning: Tab switching detected (2/3). One more switch will submit exam!';
+    } else if (count >= 3) {
+        message = '🚨 3 tab switches detected! Submitting exam in 3 seconds...';
+    }
+    
+    const warningDiv = document.createElement('div');
+    warningDiv.className = 'tab-switch-warning';
+    warningDiv.style.cssText = `
+        position: fixed;
+        top: 100px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: linear-gradient(145deg, #FFA500, #FF8C00);
+        color: white;
+        padding: 20px 30px;
+        border-radius: 10px;
+        font-weight: bold;
+        z-index: 10001;
+        text-align: center;
+        box-shadow: 0 5px 20px rgba(255, 165, 0, 0.3);
+        animation: slideDown 0.5s ease, shakeWarning 0.5s ease;
+        font-size: 18px;
+        min-width: 350px;
+        max-width: 80%;
+        border: 2px solid #ff8c00;
+    `;
+    
+    warningDiv.textContent = message;
+    document.body.appendChild(warningDiv);
+    
+    if (count < 3) {
+        setTimeout(() => {
+            warningDiv.style.animation = 'slideUp 0.5s ease';
+            setTimeout(() => {
+                if (warningDiv.parentNode) {
+                    document.body.removeChild(warningDiv);
+                }
+            }, 500);
+        }, 5000);
+    }
+    
+    if (count >= 3) {
+        showToast('🚨 3 tab switches detected! Exam will be submitted in 3 seconds.', 'error', 3000);
+    }
+}
+
+// ===== SIMPLIFIED FULL-SCREEN SECURITY SYSTEM =====
+class FullScreenSecurity {
+    constructor() {
+        this.isFullScreen = false;
+        this.securityActive = false;
+        this.retryInterval = null;
+        this.maxRetryAttempts = 3;
+        this.retryCount = 0;
+        this.createWarningOverlay();
+    }
+    
+    createWarningOverlay() {
+        this.warningOverlay = document.createElement('div');
+        this.warningOverlay.id = 'fullscreen-warning-overlay';
+        this.warningOverlay.style.cssText = `
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            z-index: 2147483646;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            color: white;
+            font-family: Arial, sans-serif;
+            text-align: center;
+        `;
+        
+        this.warningOverlay.innerHTML = `
+            <div class="warning-content" style="
+                background: rgba(255, 0, 0, 0.2);
+                padding: 40px;
+                border-radius: 20px;
+                border: 3px solid rgba(255, 0, 0, 0.5);
+                max-width: 500px;
+                width: 90%;
+                backdrop-filter: blur(10px);
+            ">
+                <h2 style="color: #ff6b6b; font-size: 28px; margin-bottom: 15px;">
+                    ⚠️ FULL-SCREEN REQUIRED
+                </h2>
+                <p style="font-size: 18px; margin-bottom: 25px; line-height: 1.5;">
+                    You have exited full-screen mode. Please return to full-screen to continue the exam.
+                </p>
+                <button id="enter-fullscreen-btn" style="
+                    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                    color: white;
+                    border: none;
+                    padding: 15px 40px;
+                    font-size: 18px;
+                    border-radius: 25px;
+                    cursor: pointer;
+                    font-weight: bold;
+                    transition: all 0.3s ease;
+                    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+                ">
+                    Enter Full-Screen Mode
+                </button>
+                <p style="margin-top: 20px; color: #aaa; font-size: 14px;">
+                    Screen will be un-blurred only after entering full-screen
+                </p>
+            </div>
+        `;
+        
+        document.body.appendChild(this.warningOverlay);
+        
+        document.getElementById('enter-fullscreen-btn').addEventListener('click', () => {
+            this.enterFullScreen();
+        });
+    }
+    
+    async enable() {
+        console.log('🔒 Enabling full-screen security...');
+        this.securityActive = true;
+        this.setupEventListeners();
+        await this.enterFullScreen();
+        console.log('✅ Full-screen security enabled');
+    }
+    
+    async enterFullScreen() {
+        try {
+            const elem = document.documentElement;
+            
+            if (elem.requestFullscreen) {
+                await elem.requestFullscreen();
+            } else if (elem.webkitRequestFullscreen) {
+                await elem.webkitRequestFullscreen();
+            } else if (elem.mozRequestFullScreen) {
+                await elem.mozRequestFullScreen();
+            } else if (elem.msRequestFullscreen) {
+                await elem.msRequestFullscreen();
+            }
+            
+            this.isFullScreen = true;
+            this.retryCount = 0;
+            this.hideWarning();
+            console.log('✅ Entered full-screen mode');
+            
+        } catch (err) {
+            console.error('❌ Failed to enter full-screen:', err);
+            this.showWarning();
+        }
+    }
+    
+    setupEventListeners() {
+        document.addEventListener('fullscreenchange', () => this.handleFullscreenChange());
+        document.addEventListener('webkitfullscreenchange', () => this.handleFullscreenChange());
+        document.addEventListener('mozfullscreenchange', () => this.handleFullscreenChange());
+        document.addEventListener('MSFullscreenChange', () => this.handleFullscreenChange());
+        
+        document.addEventListener('keydown', (e) => this.handleKeyDown(e));
+    }
+    
+    handleFullscreenChange() {
+        const isFs = document.fullscreenElement || 
+                     document.webkitFullscreenElement || 
+                     document.mozFullScreenElement || 
+                     document.msFullscreenElement;
+        
+        this.isFullScreen = !!isFs;
+        
+        if (!isFs && this.securityActive && examInProgress) {
+            this.showWarning();
+        } else if (isFs) {
+            this.hideWarning();
+        }
+    }
+    
+    showWarning() {
+        if (this.warningOverlay) {
+            this.warningOverlay.style.display = 'flex';
+        }
+    }
+    
+    hideWarning() {
+        if (this.warningOverlay) {
+            this.warningOverlay.style.display = 'none';
+        }
+    }
+    
+    handleKeyDown(e) {
+        if (this.securityActive && examInProgress && e.key === 'Escape') {
+            console.log('🔒 Escape key pressed');
+            e.preventDefault();
+            e.stopPropagation();
+        }
+        
+        if (e.key === 'PrintScreen' || (e.ctrlKey && e.key === 'p')) {
+            e.preventDefault();
+            e.stopPropagation();
+            return false;
+        }
+    }
+    
+    disable() {
+        this.securityActive = false;
+        
+        if (this.retryInterval) {
+            clearInterval(this.retryInterval);
+        }
+        
+        this.hideWarning();
+        
+        if (document.exitFullscreen) {
+            document.exitFullscreen();
+        } else if (document.webkitExitFullscreen) {
+            document.webkitExitFullscreen();
+        } else if (document.mozCancelFullScreen) {
+            document.mozCancelFullScreen();
+        } else if (document.msExitFullscreen) {
+            document.msExitFullscreen();
+        }
+        
+        console.log('🔓 Security system disabled');
+    }
+}
+
+const examSecurity = new FullScreenSecurity();
+
+// ===== TAB SWITCH DETECTION =====
+document.addEventListener('visibilitychange', function() {
+    if (document.hidden && examInProgress) {
+        const currentTime = Date.now();
+        
+        if (currentTime - lastTabSwitchTime < 1000) {
+            return;
+        }
+        
+        lastTabSwitchTime = currentTime;
+        tabSwitchCount++;
+        
+        console.log(`Tab switch detected: ${tabSwitchCount}/3`);
+        showTabSwitchWarning(tabSwitchCount);
+        
+        if (tabSwitchCount >= 3) {
+            console.log('🚨 3 tab switches detected - submitting exam');
+            setTimeout(() => {
+                if (examInProgress) {
+                    submitExam();
+                }
+            }, 3000);
+        }
+    }
+});
+
+// ===== NUMERICAL INPUT HANDLING FUNCTIONS =====
+function handleNumericalInput(inputElement, questionIndex) {
+  const value = inputElement.value;
+  const cleanedValue = value.replace(/[^0-9\.\-]/g, '');
+  
+  const decimalCount = (cleanedValue.match(/\./g) || []).length;
+  if (decimalCount > 1) {
+    const parts = cleanedValue.split('.');
+    inputElement.value = parts[0] + '.' + parts.slice(1).join('');
+  } else if (cleanedValue !== value) {
+    inputElement.value = cleanedValue;
+  }
+  
+  setTimeout(() => {
+    if (examInProgress) {
+      saveExamProgress();
+    }
+  }, 500);
+}
+
+function handleNumericalKeyPress(event, questionIndex) {
+  const allowedKeys = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '.', '-', 'Enter', 'Backspace', 'Delete', 'Tab'];
+  
+  if (!allowedKeys.includes(event.key) && !event.ctrlKey && !event.altKey && !event.metaKey) {
+    event.preventDefault();
+    return;
+  }
+  
+  if (event.key === 'Enter') {
+    submitNumericalAnswer(questionIndex);
+    event.preventDefault();
+  }
+}
+
+function handleKeypadButton(button, questionIndex) {
+  const input = document.getElementById('fillBlankInput');
+  if (!input) return;
+  
+  let currentValue = input.value;
+  
+  switch(button) {
+    case 'C':
+      input.value = '';
+      break;
+    case '✓':
+      submitNumericalAnswer(questionIndex);
+      break;
+    default:
+      input.value = currentValue + button;
+      break;
+  }
+  
+  input.focus();
+}
+
+function submitNumericalAnswer(questionIndex) {
+  const input = document.getElementById('fillBlankInput');
+  if (!input) return;
+  
+  const answer = input.value.trim();
+  
+  if (answer === '') {
+    showToast('Please enter a numerical answer', 'warning', 2000);
+    return;
+  }
+  
+  if (!/^-?\d+(\.\d+)?$/.test(answer)) {
+    showToast('Please enter a valid number', 'error', 2000);
+    return;
+  }
+  
+  progress.answers[questionIndex] = answer;
+  showToast('✓ Answer submitted!', 'success', 2000);
+  updatePalette();
+  saveExamProgress();
+  
+  setTimeout(() => {
+    if (questionIndex < examData.files.length - 1) {
+      progress.currentIndex++;
+      renderQuestion();
+      updateNavButtons();
+    }
+  }, 1500);
+}
+
+// ===== GOOGLE FORMS INTEGRATION =====
+const GOOGLE_FORMS = {
+    'A': "https://docs.google.com/forms/d/e/1FAIpQLSe4uuphhY4-p5jdTZqxG_ZZUKAhQZF1ytyNizPXb0n3L85JIw/formResponse",
+    'B': "https://docs.google.com/forms/d/e/1FAIpQLSc3JIcnUysvUtH12QWpHG9wAF4vd1NgEYqeyHwNP0UEkPqi5w/formResponse", 
+    'C': "https://docs.google.com/forms/d/e/1FAIpQLScqYdTGoD4l0jJvzYw0tdBNRSMPepnGtOOowOXYwDFov43KHg/formResponse",
+    'D': "https://docs.google.com/forms/d/e/1FAIpQLSfjAyDlY-5BAF5rPvzQS0AeTI6Vs2Rkri0V6_miA0mRivZAEg/formResponse",
+    'E': "https://docs.google.com/forms/d/e/1FAIpQLSfK6Skl6Uxj8VyGnhhqfdPHcJ8mbcgpzIKLpWFElzdeQSKMgA/formResponse",
+    'F': "https://docs.google.com/forms/d/e/1FAIpQLSeP-Gx2XnUg_Q17asOOeYzkoGtLykVIcQ2W006YTqTpE7xY6g/formResponse",
+    'G': "https://docs.google.com/forms/d/e/1FAIpQLSe1vg_I5XR3ljr-UNFi-MXxUgjdTDyrVbHxqi_dkvtmYGUTEA/formResponse",
+    'H': "https://docs.google.com/forms/d/e/1FAIpQLScyv8cps4StN2UXrsXqNdLu5UBR7t0Vwk8WSnynU2tvracs1g/formResponse",
+    'I': "https://docs.google.com/forms/d/e/1FAIpQLSeyen2hSdhRwztpWnH6lyuL91ZROqwDMKIaa4gN_e-Xvyvb_g/formResponse",
+    'J': "https://docs.google.com/forms/d/e/1FAIpQLSelbDi1n1EKWu7G0I92hTML6vWUO2c55p2dqrEOQ7cWflaSNg/formResponse"
+};
+
+const COMMON_FIELDS = {
+    STUDENT_NAME: "entry.217666919",
+    SECTION: "entry.2006392966", 
+    ROLL_NUMBER: "entry.547275105",
+    ADMISSION_NUMBER: "entry.1234063852",
+    MATHS_MARKS: "entry.1989859216",
+    PHYSICS_MARKS: "entry.1953974928", 
+    CHEMISTRY_MARKS: "entry.296331194",
+    TOTAL_MARKS: "entry.1289040887",
+    TIMESTAMP: "entry.2139100252"
+};
+
+const ANSWERS_FIELDS = {
+    'A': "entry.224183536",
+    'B': "entry.2135062491",
+    'C': "entry.66262823",
+    'D': "entry.762314240",
+    'E': "entry.109746612",
+    'F': "entry.813348755",
+    'G': "entry.1184321804",
+    'H': "entry.64526224",
+    'I': "entry.1618336199",
+    'J': "entry.1279707071"
+};
+
 function getFormFields(section) {
     return {
         ...COMMON_FIELDS,
@@ -1196,11 +2659,10 @@ function getFormFields(section) {
 
 function getAssignedForm(studentData) {
     const forms = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'];
-    const formsCount = forms.length;
     
     if (studentData.roll && !isNaN(studentData.roll)) {
         const rollNumber = parseInt(studentData.roll);
-        const formIndex = (rollNumber - 1) % formsCount;
+        const formIndex = (rollNumber - 1) % forms.length;
         return forms[formIndex];
     }
     
@@ -1210,7 +2672,7 @@ function getAssignedForm(studentData) {
         hash = ((hash << 5) - hash) + hashString.charCodeAt(i);
         hash = hash & hash;
     }
-    return forms[Math.abs(hash) % formsCount];
+    return forms[Math.abs(hash) % forms.length];
 }
 
 function updateFormAssignmentDisplay(studentData) {
@@ -1219,32 +2681,37 @@ function updateFormAssignmentDisplay(studentData) {
     document.getElementById('formAssignment').style.display = 'block';
 }
 
-// ===== SIMPLIFIED & FIXED IMAGE LOADING =====
+// ===== INITIALIZE DEMO DATA =====
 function initializeDemoData() {
-    // Create demo answer key for 60 questions
     answerKey = [];
-    for (let i = 0; i < 60; i++) {
-        const options = ['A', 'B', 'C', 'D'];
-        answerKey.push(options[Math.floor(Math.random() * options.length)]);
+    console.log("🎯 Creating demo data for 75 questions");
+    
+    for (let i = 1; i <= 75; i++) {
+        if (i <= 20 || (i >= 26 && i <= 45) || (i >= 51 && i <= 70)) {
+            const options = ['A', 'B', 'C', 'D'];
+            answerKey.push(options[Math.floor(Math.random() * options.length)]);
+        } else {
+            answerKey.push(String(Math.floor(Math.random() * 100) + 1));
+        }
     }
     
-    // SIMPLE: Generate exact image paths for questions folder
     images = [];
-    for (let i = 1; i <= 60; i++) {
-        images.push(`questions/${i}.png`); // Exact path: questions/1.png, questions/2.png, etc.
+    for (let i = 1; i <= 75; i++) {
+        images.push(`questions/${i}.png`);
     }
     
     keyLoaded = true;
     clearErrors();
     validateStudentInputs();
-    console.log('✅ Demo Data Ready - Images: questions/1.png to questions/60.png');
+    console.log('✅ Demo Data Ready - 75 questions');
 }
 
-// ===== FIXED ANSWER KEY PARSER FOR 5 PER LINE WITHOUT GAP =====
+// ===== LOAD ANSWER KEY =====
 async function loadAnswerKeyFromRepo() {
     try {
-        console.log("📥 Loading answer key...");
+        console.log("📥 Loading answer key for 75 questions...");
         
+        // Try to load from Answers/Key
         const response = await fetch('Answers/Key');
         
         if (!response.ok) {
@@ -1254,28 +2721,38 @@ async function loadAnswerKeyFromRepo() {
         const text = await response.text();
         console.log("✅ Answer key loaded");
         
-        // Parse for "5 answers per line without gap" format
-        const parsedAnswers = parseAnswerKeyFivePerLine(text);
+        // Simple parsing
+        const lines = text.trim().split('\n').filter(line => line.trim() !== '');
+        const parsedAnswers = [];
         
-        // Validate we have exactly 60 answers
-        if (parsedAnswers.length !== 60) {
-            console.error(`❌ Expected 60 answers but got ${parsedAnswers.length}`);
+        for (let i = 0; i < lines.length; i++) {
+            const line = lines[i].trim();
+            
+            if (line.includes(',')) {
+                const answers = line.split(',').map(a => a.trim().toUpperCase());
+                parsedAnswers.push(...answers);
+            } else {
+                parsedAnswers.push(line.toUpperCase());
+            }
+            
+            if (parsedAnswers.length >= 75) break;
+        }
+        
+        if (parsedAnswers.length !== 75) {
+            console.error(`❌ Expected 75 answers but got ${parsedAnswers.length}`);
             initializeDemoData();
             return;
         }
         
-        // Set the answer key
-        answerKey = parsedAnswers;
+        answerKey = parsedAnswers.slice(0, 75);
         keyLoaded = true;
         
-        // SIMPLE: Generate exact image paths
         images = [];
-        for (let i = 1; i <= 60; i++) {
+        for (let i = 1; i <= 75; i++) {
             images.push(`questions/${i}.png`);
         }
         
-        console.log("✅ REAL Answer key loaded - 60 answers");
-        console.log("✅ Image paths: questions/1.png to questions/60.png");
+        console.log("✅ REAL Answer key loaded - 75 answers");
         
         clearErrors();
         validateStudentInputs();
@@ -1286,58 +2763,171 @@ async function loadAnswerKeyFromRepo() {
     }
 }
 
-// ===== SPECIAL PARSER FOR 5 PER LINE WITHOUT GAP =====
-function parseAnswerKeyFivePerLine(text) {
-    console.log("🔄 Parsing: 5 answers per line without gaps");
+// ===== PREPARE EXAM DATA =====
+function prepareExamData() {
+  examData.files = []; examData.subjectNames = []; examData.keys = []; examData.originalOrder = []; examData.questionTypes = [];
+  
+  const subjectRanges = [
+    { name: "Maths", start: 1, end: 25 },
+    { name: "Physics", start: 26, end: 50 },
+    { name: "Chemistry", start: 51, end: 75 }
+  ];
+  
+  let groups = [];
+  
+  subjectRanges.forEach(subject => {
+    const subjectQuestions = [];
+    const subjectKeys = [];
+    const subjectOriginalOrder = [];
+    const subjectTypes = [];
     
-    const lines = text.trim().split('\n').filter(line => line.trim() !== '');
-    const parsedAnswers = [];
-    
-    console.log("Number of lines:", lines.length);
-    
-    for (let i = 0; i < lines.length; i++) {
-        const line = lines[i].trim();
+    for (let i = subject.start; i <= subject.end; i++) {
+      const imgIndex = i - 1;
+      if (images[imgIndex] && answerKey[imgIndex]) {
+        subjectQuestions.push(images[imgIndex]);
+        subjectKeys.push(answerKey[imgIndex]);
+        subjectOriginalOrder.push(imgIndex);
         
-        // For "5 per line without gap" - each line should have exactly 5 characters
-        if (line.length === 5) {
-            // Split into individual characters: "ABCDE" -> ['A','B','C','D','E']
-            const answersInLine = line.split('').map(a => a.toUpperCase());
-            
-            // Filter valid answers only
-            const validAnswers = answersInLine.filter(a => ['A', 'B', 'C', 'D'].includes(a));
-            
-            if (validAnswers.length === 5) {
-                parsedAnswers.push(...validAnswers);
-            }
+        let questionType = 'mcq';
+        if ((subject.name === "Maths" && i >= 21 && i <= 25) ||
+            (subject.name === "Physics" && i >= 46 && i <= 50) ||
+            (subject.name === "Chemistry" && i >= 71 && i <= 75)) {
+          questionType = 'fill-blank';
         }
-        
-        // Stop if we have enough answers (12 lines × 5 = 60)
-        if (parsedAnswers.length >= 60) {
-            console.log("✅ Reached 60 answers, stopping parsing");
-            break;
-        }
+        subjectTypes.push(questionType);
+      }
     }
     
-    console.log("Total parsed answers:", parsedAnswers.length);
-    return parsedAnswers.slice(0, 60); // Ensure exactly 60
+    const shuffledIndices = shuffleArray([...Array(subjectQuestions.length).keys()]);
+    
+    groups.push({
+      name: subject.name,
+      imgs: shuffledIndices.map(i => subjectQuestions[i]),
+      keys: shuffledIndices.map(i => subjectKeys[i]),
+      originalOrder: shuffledIndices.map(i => subjectOriginalOrder[i]),
+      types: shuffledIndices.map(i => subjectTypes[i])
+    });
+  });
+  
+  const shuffledGroups = shuffleArray(groups);
+  
+  shuffledGroups.forEach(g => {
+    g.imgs.forEach((img, i) => {
+      examData.files.push(img);
+      examData.keys.push(g.keys[i]);
+      examData.subjectNames.push(g.name);
+      examData.originalOrder.push(g.originalOrder[i]);
+      examData.questionTypes.push(g.types[i]);
+    });
+  });
+  
+  console.log("🎯 EXAM DATA VERIFICATION:");
+  console.log("Total Questions:", examData.files.length);
 }
 
-// ===== SIMPLIFIED RENDER QUESTION =====
+// ===== RENDER QUESTION =====
 function renderQuestion() {
   const idx = progress.currentIndex;
   const container = document.getElementById('questionContainer');
   
   const imagePath = examData.files[idx];
   const questionNumber = idx + 1;
+  const questionType = examData.questionTypes[idx];
+  const subject = examData.subjectNames[idx];
   
-  console.log(`🖼️ Loading: ${imagePath}`);
+  console.log(`🖼️ Loading: ${imagePath} (Q${questionNumber}/75) - ${subject} - ${questionType}`);
+  
+  let optionsHTML = '';
+  
+  if (questionType === 'fill-blank') {
+    optionsHTML = `
+      <div class="fill-blank-container">
+        <div style="margin: 20px 0; font-weight: bold; color: #4B0082; font-size: 18px;">
+          Enter numerical answer:
+        </div>
+        <div style="display: flex; justify-content: center; align-items: center; gap: 15px; margin: 25px 0;">
+          <input type="number" 
+                 id="fillBlankInput" 
+                 class="fill-blank-input"
+                 placeholder="Enter number"
+                 value="${progress.answers[idx] || ''}"
+                 min="0"
+                 step="any"
+                 style="
+                   padding: 12px 18px;
+                   font-size: 22px;
+                   border: 2px solid #4B0082;
+                   border-radius: 8px;
+                   width: 200px;
+                   text-align: center;
+                   outline: none;
+                   font-weight: bold;
+                 "
+                 oninput="handleNumericalInput(this, ${idx})"
+                 onkeypress="handleNumericalKeyPress(event, ${idx})"
+                 tabindex="0">
+          <button class="submit-fill-blank-btn" 
+                  onclick="submitNumericalAnswer(${idx})"
+                  tabindex="0"
+                  style="
+                    padding: 12px 24px;
+                    background: linear-gradient(145deg, #32CD32, #228B22);
+                    color: white;
+                    border: none;
+                    border-radius: 8px;
+                    font-size: 16px;
+                    font-weight: bold;
+                    cursor: pointer;
+                  ">
+            Submit
+          </button>
+        </div>
+        
+        <!-- Numerical Keypad -->
+        <div class="numerical-keypad">
+          <div class="keypad-grid">
+            ${[1,2,3,4,5,6,7,8,9].map(num => `
+              <button class="num-key-btn" 
+                      onclick="handleKeypadButton('${num}', ${idx})"
+                      tabindex="0">
+                ${num}
+              </button>
+            `).join('')}
+            <button class="num-key-btn special-btn" 
+                    onclick="handleKeypadButton('0', ${idx})"
+                    tabindex="0">
+              0
+            </button>
+            <button class="num-key-btn special-btn clear-btn" 
+                    onclick="handleKeypadButton('C', ${idx})"
+                    tabindex="0">
+              C
+            </button>
+            <button class="num-key-btn special-btn submit-num-btn" 
+                    onclick="handleKeypadButton('✓', ${idx})"
+                    tabindex="0">
+              ✓
+            </button>
+          </div>
+        </div>
+      </div>
+    `;
+  } else {
+    optionsHTML = `
+      <div class="options-container">
+        <button class="optBtn ${progress.answers[idx] === 'A' ? 'selected' : ''}" data-opt="A" tabindex="0">A</button>
+        <button class="optBtn ${progress.answers[idx] === 'B' ? 'selected' : ''}" data-opt="B" tabindex="0">B</button>
+        <button class="optBtn ${progress.answers[idx] === 'C' ? 'selected' : ''}" data-opt="C" tabindex="0">C</button>
+        <button class="optBtn ${progress.answers[idx] === 'D' ? 'selected' : ''}" data-opt="D" tabindex="0">D</button>
+      </div>
+    `;
+  }
   
   container.innerHTML = `
     <div class="question-transition question-fade-in">
-      <div class="question-number">Question ${questionNumber}</div>
-      <div class="sectionTitle">${examData.subjectNames[idx]}</div>
+      <div class="question-number">Question ${questionNumber} of 75</div>
+      <div class="sectionTitle">${subject} ${questionType === 'fill-blank' ? '(Numerical Input)' : '(MCQ)'}</div>
       
-      <!-- Simple Image Container -->
       <div style="width: 100%; overflow: auto; min-height: 300px; display: flex; justify-content: center; align-items: center;">
         <img src="${imagePath}" 
              class="questionImg" 
@@ -1347,280 +2937,25 @@ function renderQuestion() {
              onerror="handleSimpleImageError(this, ${idx})">
       </div>
       
-      <div class="options-container">
-        <button class="optBtn ${progress.answers[idx] === 'A' ? 'selected' : ''}" data-opt="A">A</button>
-        <button class="optBtn ${progress.answers[idx] === 'B' ? 'selected' : ''}" data-opt="B">B</button>
-        <button class="optBtn ${progress.answers[idx] === 'C' ? 'selected' : ''}" data-opt="C">C</button>
-        <button class="optBtn ${progress.answers[idx] === 'D' ? 'selected' : ''}" data-opt="D">D</button>
-      </div>
+      ${optionsHTML}
     </div>
   `;
   
-  document.querySelectorAll('.optBtn').forEach(btn => {
-    btn.onclick = function() { selectOption(this.getAttribute('data-opt')); };
-  });
+  if (questionType !== 'fill-blank') {
+    document.querySelectorAll('.optBtn').forEach(btn => {
+      btn.onclick = function() { 
+        selectOption(this.getAttribute('data-opt')); 
+      };
+    });
+  } else {
+    setTimeout(() => {
+      const input = document.getElementById('fillBlankInput');
+      if (input) input.focus();
+    }, 100);
+  }
   
   updateQuestionInfo();
   updatePalette();
-}
-
-// ===== SIMPLE ERROR HANDLER =====
-function handleSimpleImageError(imgElement, questionIndex) {
-    const attemptedPath = imgElement.src;
-    const questionNumber = questionIndex + 1;
-    
-    console.error(`❌ Image failed: ${attemptedPath}`);
-    
-    // Simple error display
-    imgElement.outerHTML = `
-        <div class="image-error" style="padding: 20px; text-align: center;">
-            <h3>⚠️ Image Not Found</h3>
-            <p><strong>File:</strong> questions/${questionNumber}.png</p>
-            <p>Please check that the file exists in the questions folder.</p>
-            <div style="margin-top: 15px; background: #f8f9fa; padding: 10px; border-radius: 5px;">
-                <strong>Expected:</strong> questions/${questionNumber}.png
-            </div>
-        </div>
-    `;
-}
-
-// ===== COMPREHENSIVE ANSWERS CAPTURE SYSTEM =====
-function captureAllAnswersData() {
-    console.log("🎯 Capturing all student answers...");
-    
-    const answersData = {
-        student: progress.student,
-        timestamp: new Date().toISOString(),
-        examId: generateExamId(),
-        assignedForm: assignedForm,
-        answers: [],
-        summary: {}
-    };
-    
-    // Capture all 60 answers in original order
-    for (let i = 0; i < examData.files.length; i++) {
-        const answerRecord = {
-            questionNumber: i + 1,
-            shuffledPosition: examData.originalOrder[i] + 1,
-            subject: examData.subjectNames[i],
-            studentAnswer: progress.answers[i] || 'N',
-            correctAnswer: examData.keys[i],
-            isCorrect: progress.answers[i] === examData.keys[i],
-            isReviewed: progress.review[i]
-        };
-        
-        answersData.answers.push(answerRecord);
-    }
-    
-    // Calculate subject-wise summary
-    const subjectSummary = {};
-    answersData.answers.forEach(answer => {
-        const subject = answer.subject;
-        if (!subjectSummary[subject]) {
-            subjectSummary[subject] = {
-                total: 0,
-                correct: 0,
-                wrong: 0,
-                notAttempted: 0,
-                marks: 0
-            };
-        }
-        
-        subjectSummary[subject].total++;
-        if (answer.isCorrect) {
-            subjectSummary[subject].correct++;
-            subjectSummary[subject].marks += MARK_PER_CORRECT;
-        } else if (answer.studentAnswer === 'N') {
-            subjectSummary[subject].notAttempted++;
-        } else {
-            subjectSummary[subject].wrong++;
-            subjectSummary[subject].marks += MARK_PER_WRONG;
-        }
-    });
-    
-    answersData.summary = subjectSummary;
-    
-    console.log("📊 Answers Data Captured:", {
-        totalQuestions: answersData.answers.length,
-        answered: answersData.answers.filter(a => a.studentAnswer !== 'N').length,
-        correct: answersData.answers.filter(a => a.isCorrect).length,
-        assignedForm: assignedForm
-    });
-    
-    return answersData;
-}
-
-function generateExamId() {
-    return `exam_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-}
-
-// ===== SIMPLIFIED ANSWER FORMAT =====
-function formatAllAnswersString(answers) {
-    console.log("🎯 Formatting answers as simple letters (A,B,C,D,N) in ORIGINAL sequence...");
-    
-    // Create array for original order answers (Q1 to Q60)
-    const originalOrderAnswers = new Array(60);
-    
-    // Map shuffled answers back to ORIGINAL order Q1-Q60
-    examData.originalOrder.forEach((originalIndex, shuffledIndex) => {
-        const studentAnswer = answers[shuffledIndex] || 'N';
-        originalOrderAnswers[originalIndex] = studentAnswer;
-    });
-    
-    // Join with commas: B,C,N,A,D,...
-    const result = originalOrderAnswers.join(',');
-    
-    console.log("✅ Answers formatted as simple letters:");
-    console.log("Total answers: 60");
-    console.log("Answered:", answers.filter(a => a !== null).length);
-    
-    return result;
-}
-
-// ===== ENHANCED GOOGLE FORMS SUBMISSION =====
-async function submitToGoogleForms(answersData) {
-    const FORM_URL = GOOGLE_FORMS[assignedForm];
-    
-    if (!FORM_URL) {
-        console.error(`❌ No Google Form URL found for form ${assignedForm}`);
-        updateSubmissionStatus('error', `No Google Form URL found for form ${assignedForm}`);
-        return false;
-    }
-
-    try {
-        // Get the correct form fields for this section
-        const formFields = getFormFields(assignedForm);
-        
-        // Prepare the form data
-        const formData = new URLSearchParams();
-        
-        // Basic student information
-        formData.append(formFields.STUDENT_NAME, answersData.student.name);
-        formData.append(formFields.SECTION, answersData.student.sec);
-        formData.append(formFields.ROLL_NUMBER, answersData.student.roll);
-        formData.append(formFields.ADMISSION_NUMBER, answersData.student.adm);
-        
-        // Calculate and add marks
-        const marks = calculateSubjectMarks(answersData.summary);
-        formData.append(formFields.MATHS_MARKS, marks.maths.toFixed(2));
-        formData.append(formFields.PHYSICS_MARKS, marks.physics.toFixed(2));
-        formData.append(formFields.CHEMISTRY_MARKS, marks.chemistry.toFixed(2));
-        formData.append(formFields.TOTAL_MARKS, marks.total.toFixed(2));
-        
-        // Add timestamp
-        formData.append(formFields.TIMESTAMP, new Date().toLocaleString());
-        
-        // ADD ALL ANSWERS AS SIMPLE LETTERS
-        const allAnswersString = formatAllAnswersString(progress.answers);
-        formData.append(formFields.ALL_ANSWERS, allAnswersString);
-        
-        console.log("📤 Submitting to Google Forms:");
-        console.log("Form:", assignedForm);
-        console.log("Student:", answersData.student.name);
-        console.log("Answers Field ID:", formFields.ALL_ANSWERS);
-
-        // Show pending status
-        updateSubmissionStatus('pending', 'Submitting to Google Forms...');
-
-        // Submit to Google Forms
-        const response = await fetch(FORM_URL, {
-            method: "POST",
-            mode: "no-cors",
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
-            },
-            body: formData
-        });
-
-        console.log("✅ Google Forms submission completed");
-        updateSubmissionStatus('success', '✅ Answers successfully submitted to Google Forms!');
-        return true;
-        
-    } catch (error) {
-        console.error("❌ Google Forms submission failed:", error);
-        updateSubmissionStatus('error', '❌ Failed to submit to Google Forms. Your answers have been saved locally.');
-        return false;
-    }
-}
-
-function updateSubmissionStatus(status, message) {
-    googleFormsSubmissionStatus = status;
-    
-    const statusDiv = document.getElementById('summarySubmissionStatus');
-    if (statusDiv) {
-        statusDiv.innerHTML = `<div class="submission-status submission-${status}">${message}</div>`;
-    }
-    
-    const entryStatus = document.getElementById('googleFormsStatus');
-    if (entryStatus) {
-        entryStatus.innerHTML = `<div class="submission-status submission-${status}">${message}</div>`;
-        entryStatus.style.display = 'block';
-    }
-}
-
-function calculateSubjectMarks(summary) {
-    let maths = 0, physics = 0, chemistry = 0, total = 0;
-    
-    for (let subject in summary) {
-        const subjectLower = subject.toLowerCase();
-        if (subjectLower.includes('math')) maths = summary[subject].marks;
-        else if (subjectLower.includes('phy')) physics = summary[subject].marks;
-        else if (subjectLower.includes('chem')) chemistry = summary[subject].marks;
-        total += summary[subject].marks;
-    }
-    
-    return { maths, physics, chemistry, total };
-}
-
-// ===== MODIFIED SUBMISSION FUNCTION =====
-async function sendToGoogleFormWithGuarantee(subjData, studentData) {
-    const studentId = generateStudentId(studentData);
-    
-    console.log(`🚀 Starting submission for: ${studentData.name}`);
-    
-    if (submissionInProgress.has(studentId)) {
-        console.warn(`🚨 Submission already in progress for: ${studentData.name}`);
-        return true;
-    }
-    
-    try {
-        submissionInProgress.add(studentId);
-        
-        console.log(`📤 Attempting submission for: ${studentData.name}`);
-        
-        // Capture all answers data
-        const answersData = captureAllAnswersData();
-        
-        // Submit to Google Forms
-        const success = await submitToGoogleForms(answersData);
-        
-        if (success) {
-            console.log(`✅ SINGLE SUBMISSION SUCCESS: ${studentData.name}`);
-            
-            // Store locally for backup
-            localStorage.setItem(`exam_result_${answersData.examId}`, JSON.stringify(answersData));
-            
-            return true;
-        } else {
-            console.error(`❌ Submission failed for: ${studentData.name}`);
-            return false;
-        }
-        
-    } catch (error) {
-        console.error(`💥 Submission error for ${studentData.name}:`, error);
-        return false;
-    } finally {
-        setTimeout(() => {
-            submissionInProgress.delete(studentId);
-        }, 5000);
-    }
-}
-
-function generateStudentId(studentData) {
-    return `${studentData.name}_${studentData.sec}_${studentData.roll}_${studentData.adm}`
-        .toLowerCase()
-        .replace(/\s+/g, '_')
-        .replace(/[^a-z0-9_]/g, '');
 }
 
 // ===== INPUT VALIDATION =====
@@ -1737,30 +3072,6 @@ document.addEventListener('keydown', function(e) {
     }
 });
 
-// ===== TAB SWITCH DETECTION =====
-let tabSwitchCount = 0;
-let lastTabSwitchTime = 0;
-const MAX_TAB_SWITCHES = 2;
-const TAB_SWITCH_WINDOW_MS = 30000;
-
-document.addEventListener('visibilitychange', function() {
-    if (document.hidden && examInProgress) {
-        const currentTime = Date.now();
-        if (currentTime - lastTabSwitchTime > TAB_SWITCH_WINDOW_MS) tabSwitchCount = 0;
-        tabSwitchCount++;
-        lastTabSwitchTime = currentTime;
-        
-        console.log(`Tab switch detected: ${tabSwitchCount}/${MAX_TAB_SWITCHES}`);
-        
-        if (tabSwitchCount >= MAX_TAB_SWITCHES) {
-            alert('⚠️ Multiple tab switches detected. Exam will be submitted automatically for security.');
-            submitExam();
-        } else {
-            alert(`⚠️ Warning: Tab switching detected (${tabSwitchCount}/${MAX_TAB_SWITCHES}). Multiple switches may result in automatic submission.`);
-        }
-    }
-});
-
 // ===== EVENT LISTENERS =====
 ["stuName", "stuSection", "stuRoll", "stuAdm"].forEach(id => {
   document.getElementById(id).addEventListener("input", validateStudentInputs);
@@ -1781,7 +3092,7 @@ document.getElementById('accessCode').addEventListener('keypress', function(e) {
   if (e.key === 'Enter') verifyAccessCode();
 });
 
-// ===== EXAM PREPARATION =====
+// ===== UTILITY FUNCTIONS =====
 function shuffleArray(arr) {
     const c = arr.slice();
     for (let i = c.length - 1; i > 0; i--) {
@@ -1791,69 +3102,37 @@ function shuffleArray(arr) {
     return c;
 }
 
-function prepareExamData() {
-  examData.files = []; examData.subjectNames = []; examData.keys = []; examData.originalOrder = [];
-  
-  const subjectRanges = [
-    { name: "Maths", start: 1, end: 30 },
-    { name: "Physics", start: 31, end: 45 },
-    { name: "Chemistry", start: 46, end: 60 }
-  ];
-  
-  let groups = [];
-  
-  subjectRanges.forEach(subject => {
-    const subjectQuestions = [];
-    const subjectKeys = [];
-    const subjectOriginalOrder = [];
-    
-    for (let i = subject.start; i <= subject.end; i++) {
-      const imgIndex = i - 1;
-      if (images[imgIndex] && answerKey[imgIndex]) {
-        subjectQuestions.push(images[imgIndex]);
-        subjectKeys.push(answerKey[imgIndex]);
-        subjectOriginalOrder.push(imgIndex);
-      }
-    }
-    
-    const shuffledIndices = shuffleArray([...Array(subjectQuestions.length).keys()]);
-    
-    groups.push({
-      name: subject.name,
-      imgs: shuffledIndices.map(i => subjectQuestions[i]),
-      keys: shuffledIndices.map(i => subjectKeys[i]),
-      originalOrder: shuffledIndices.map(i => subjectOriginalOrder[i])
-    });
-  });
-  
-  const shuffledGroups = shuffleArray(groups);
-  
-  shuffledGroups.forEach(g => {
-    g.imgs.forEach((img, i) => {
-      examData.files.push(img);
-      examData.keys.push(g.keys[i]);
-      examData.subjectNames.push(g.name);
-      examData.originalOrder.push(g.originalOrder[i]);
-    });
-  });
-  
-  // VERIFY: Log first 5 questions and their images
-  console.log("🎯 EXAM DATA VERIFICATION:");
-  for (let i = 0; i < 5; i++) {
-    console.log(`Q${i+1}: ${examData.files[i]} → Answer: ${examData.keys[i]}`);
-  }
+function generateExamId() {
+    return `exam_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
 }
 
-// ===== EXAM START =====
+function generateStudentId(studentData) {
+    return `${studentData.name}_${studentData.sec}_${studentData.roll}_${studentData.adm}`
+        .toLowerCase()
+        .replace(/\s+/g, '_')
+        .replace(/[^a-z0-9_]/g, '');
+}
+
+// ===== START EXAM WITH SECURITY =====
 function startWithSecurity(ok) {
   if (!ok) return;
+  
+  tabSwitchCount = 0;
+  lastTabSwitchTime = 0;
+  
   const stuName = document.getElementById('stuName');
   const stuSection = document.getElementById('stuSection');
   const stuRoll = document.getElementById('stuRoll');
   const stuAdm = document.getElementById('stuAdm');
   
   const studentKey = `${stuName.value}|${stuSection.value}|${stuRoll.value}|${stuAdm.value}`;
-  startExam(studentKey);
+  
+  examSecurity.enable().then(() => {
+    startExam(studentKey);
+  }).catch(err => {
+    console.error('Failed to enable security:', err);
+    alert('⚠️ Please allow full-screen mode to start the exam.');
+  });
 }
 
 function startExam(studentKey) {
@@ -1870,24 +3149,28 @@ function startExam(studentKey) {
     localStorage.setItem(studentKey, Date.now());
     prepareExamData();
     
-    // QUICK IMAGE TEST
-    console.log("🧪 QUICK IMAGE TEST:");
-    for (let i = 0; i < 3; i++) {
-        const img = new Image();
-        img.onload = () => console.log(`✅ ${examData.files[i]} - LOADS`);
-        img.onerror = () => console.log(`❌ ${examData.files[i]} - FAILS`);
-        img.src = examData.files[i];
+    // Check if we have recovery data
+    if (window.pendingRecoveryData) {
+        progress = window.pendingRecoveryData.progress;
+        examData = window.pendingRecoveryData.examData;
+        examStartTime = window.pendingRecoveryData.metadata.examStartTime;
+        assignedForm = window.pendingRecoveryData.metadata.assignedForm;
+        
+        // Calculate adjusted time
+        const timeElapsed = Math.floor((Date.now() - examStartTime) / 1000);
+        progress.timeLeftSec = Math.max(0, EXAM_DURATION_MINUTES * 60 - timeElapsed);
+    } else {
+        // Start fresh exam
+        progress = {
+            answers: Array(examData.files.length).fill(null),
+            review: Array(examData.files.length).fill(false),
+            currentIndex: 0,
+            student: {name: stuName.value, sec: stuSection.value, roll: stuRoll.value, adm: stuAdm.value},
+            timeLeftSec: EXAM_DURATION_MINUTES * 60
+        };
+        examStartTime = Date.now();
     }
-    
-    progress = {
-        answers: Array(examData.files.length).fill(null),
-        review: Array(examData.files.length).fill(false),
-        currentIndex: 0,
-        student: {name: stuName.value, sec: stuSection.value, roll: stuRoll.value, adm: stuAdm.value},
-        timeLeftSec: EXAM_DURATION_MINUTES * 60
-    };
 
-    examStartTime = Date.now();
     examInProgress = true;
     
     document.getElementById('studentEntry').style.display = "none";
@@ -1898,28 +3181,7 @@ function startExam(studentKey) {
     updateNavButtons();
     
     sheetReady = true;
-}
-
-function selectOption(opt) {
-  const idx = progress.currentIndex;
-  if (progress.answers[idx] === opt) {
-    progress.answers[idx] = null;
-    console.log(`Deselected option ${opt} for question ${idx + 1}`);
-  } else {
-    progress.answers[idx] = opt;
-    console.log(`Selected option ${opt} for question ${idx + 1}`);
-  }
-  updateOptionButtons();
-  updatePalette();
-}
-
-function updateOptionButtons() {
-  const idx = progress.currentIndex;
-  const currentAnswer = progress.answers[idx];
-  document.querySelectorAll('.optBtn').forEach(btn => {
-    const btnOpt = btn.getAttribute('data-opt');
-    btn.classList.toggle('selected', btnOpt === currentAnswer);
-  });
+    saveExamProgress();
 }
 
 function updateQuestionInfo() {
@@ -1928,7 +3190,7 @@ function updateQuestionInfo() {
   const stuQInfoEl = document.getElementById('stuQInfo');
   
   if (stuInfoEl) stuInfoEl.textContent = `${progress.student.name} | ${progress.student.sec} | Roll: ${progress.student.roll}`;
-  if (stuQInfoEl) stuQInfoEl.textContent = `Q${idx+1} of ${examData.files.length} | ${examData.subjectNames[idx]}`;
+  if (stuQInfoEl) stuQInfoEl.textContent = `Q${idx+1} of 75 | ${examData.subjectNames[idx]}`;
 }
 
 // ===== PALETTE FUNCTIONS =====
@@ -1940,6 +3202,12 @@ function renderPalette() {
     const btn = document.createElement('button');
     btn.className = 'palette-btn';
     btn.textContent = i + 1;
+    btn.tabindex = "0";
+    
+    if (examData.questionTypes[i] === 'fill-blank') {
+      btn.style.background = '#FFD700';
+      btn.style.color = '#000';
+    }
     
     if (progress.answers[i] !== null) btn.classList.add('selected');
     if (progress.review[i]) btn.classList.add('reviewed');
@@ -1959,6 +3227,15 @@ function updatePalette() {
   const buttons = document.querySelectorAll('.palette-btn');
   buttons.forEach((btn, i) => {
     btn.className = 'palette-btn';
+    
+    if (examData.questionTypes[i] === 'fill-blank') {
+      btn.style.background = '#FFD700';
+      btn.style.color = '#000';
+    } else {
+      btn.style.background = '';
+      btn.style.color = '';
+    }
+    
     if (progress.answers[i] !== null) btn.classList.add('selected');
     if (progress.review[i]) btn.classList.add('reviewed');
     if (i === progress.currentIndex) btn.classList.add('current');
@@ -1989,6 +3266,10 @@ document.getElementById('prevBtn').onclick = () => {
     progress.currentIndex--;
     renderQuestion();
     updateNavButtons();
+    
+    if (examInProgress) {
+      setTimeout(() => saveExamProgress(), 500);
+    }
   }
 };
 
@@ -1997,6 +3278,10 @@ document.getElementById('nextBtn').onclick = () => {
     progress.currentIndex++;
     renderQuestion();
     updateNavButtons();
+    
+    if (examInProgress) {
+      setTimeout(() => saveExamProgress(), 500);
+    }
   }
 };
 
@@ -2005,11 +3290,66 @@ document.getElementById('markReviewBtn').onclick = () => {
   progress.review[idx] = !progress.review[idx];
   updateNavButtons();
   updatePalette();
+  
+  if (examInProgress) {
+    setTimeout(() => saveExamProgress(), 500);
+  }
 };
 
+// ===== CONFIRMATION MODAL =====
 document.getElementById('submitBtn').onclick = () => {
-  showConfirm("Submit Exam? You cannot change answers after submission.", submitExam);
+  showConfirmWithBothButtons("Submit Exam? You cannot change answers after submission.");
 };
+
+function showConfirmWithBothButtons(message) {
+  const modal = document.getElementById('confirmModal');
+  const text = document.getElementById('confirmText');
+  const yesBtn = document.getElementById('confirmYes');
+  const noBtn = document.getElementById('confirmNo');
+  
+  text.textContent = message;
+  modal.style.display = 'flex';
+  
+  const newYesBtn = yesBtn.cloneNode(true);
+  const newNoBtn = noBtn.cloneNode(true);
+  yesBtn.parentNode.replaceChild(newYesBtn, yesBtn);
+  noBtn.parentNode.replaceChild(newNoBtn, noBtn);
+  
+  newYesBtn.onclick = () => { 
+    modal.style.display = 'none'; 
+    submitExam(); 
+  };
+  
+  newNoBtn.onclick = () => { 
+    modal.style.display = 'none'; 
+    console.log('User chose not to submit exam');
+  };
+}
+
+function showConfirm(message, callback) {
+  const modal = document.getElementById('confirmModal');
+  const text = document.getElementById('confirmText');
+  const yesBtn = document.getElementById('confirmYes');
+  const noBtn = document.getElementById('confirmNo');
+  
+  text.textContent = message;
+  modal.style.display = 'flex';
+  
+  const newYesBtn = yesBtn.cloneNode(true);
+  const newNoBtn = noBtn.cloneNode(true);
+  yesBtn.parentNode.replaceChild(newYesBtn, yesBtn);
+  noBtn.parentNode.replaceChild(newNoBtn, noBtn);
+  
+  newYesBtn.onclick = () => { 
+    modal.style.display = 'none'; 
+    callback(true); 
+  };
+  
+  newNoBtn.onclick = () => { 
+    modal.style.display = 'none'; 
+    callback(false); 
+  };
+}
 
 // ===== TIMER FUNCTIONS =====
 function startTimer() {
@@ -2028,7 +3368,290 @@ function startTimer() {
       clearInterval(timerInterval);
       submitExam();
     }
+    
+    if (progress.timeLeftSec % 60 === 0 && examInProgress) {
+      saveExamProgress();
+    }
   }, 1000);
+}
+
+// ===== GOOGLE FORMS SUBMISSION FUNCTIONS =====
+function captureAllAnswersData() {
+    console.log("🎯 Capturing all student answers for 75 questions...");
+    
+    const answersData = {
+        student: progress.student,
+        timestamp: new Date().toISOString(),
+        examId: generateExamId(),
+        assignedForm: assignedForm,
+        answers: [],
+        summary: {},
+        structure: QUESTION_STRUCTURE
+    };
+    
+    // Capture all 75 answers in original order
+    for (let i = 0; i < examData.files.length; i++) {
+        const originalIndex = examData.originalOrder[i];
+        const questionType = examData.questionTypes[i];
+        const answerRecord = {
+            questionNumber: originalIndex + 1, // Original Q1-Q75
+            shuffledPosition: i + 1, // Current position in exam
+            subject: examData.subjectNames[i],
+            questionType: questionType,
+            studentAnswer: progress.answers[i] || 'N',
+            correctAnswer: examData.keys[i],
+            isCorrect: progress.answers[i] === examData.keys[i],
+            isReviewed: progress.review[i]
+        };
+        
+        answersData.answers.push(answerRecord);
+    }
+    
+    // Sort by original question number (Q1-Q75)
+    answersData.answers.sort((a, b) => a.questionNumber - b.questionNumber);
+    
+    // Calculate subject-wise summary
+    const subjectSummary = {};
+    answersData.answers.forEach(answer => {
+        const subject = answer.subject;
+        if (!subjectSummary[subject]) {
+            subjectSummary[subject] = {
+                total: 0,
+                correct: 0,
+                wrong: 0,
+                notAttempted: 0,
+                marks: 0,
+                mcq: { total: 0, correct: 0 },
+                fillBlank: { total: 0, correct: 0 }
+            };
+        }
+        
+        subjectSummary[subject].total++;
+        
+        // Track by question type
+        if (answer.questionType === 'mcq') {
+            subjectSummary[subject].mcq.total++;
+            if (answer.isCorrect) subjectSummary[subject].mcq.correct++;
+        } else {
+            subjectSummary[subject].fillBlank.total++;
+            if (answer.isCorrect) subjectSummary[subject].fillBlank.correct++;
+        }
+        
+        if (answer.isCorrect) {
+            subjectSummary[subject].correct++;
+            subjectSummary[subject].marks += MARK_PER_CORRECT;
+        } else if (answer.studentAnswer === 'N') {
+            subjectSummary[subject].notAttempted++;
+        } else {
+            subjectSummary[subject].wrong++;
+            subjectSummary[subject].marks += MARK_PER_WRONG;
+        }
+    });
+    
+    answersData.summary = subjectSummary;
+    
+    console.log("📊 Answers Data Captured:", {
+        totalQuestions: answersData.answers.length,
+        answered: answersData.answers.filter(a => a.studentAnswer !== 'N').length,
+        correct: answersData.answers.filter(a => a.isCorrect).length,
+        assignedForm: assignedForm
+    });
+    
+    return answersData;
+}
+
+function formatAllAnswersString(answers) {
+    console.log("🎯 Formatting 75 answers in ORIGINAL sequence...");
+    
+    // Create array for original order answers (Q1 to Q75)
+    const originalOrderAnswers = new Array(75);
+    
+    // Map shuffled answers back to ORIGINAL order Q1-Q75
+    examData.originalOrder.forEach((originalIndex, shuffledIndex) => {
+        const studentAnswer = answers[shuffledIndex] || 'N';
+        originalOrderAnswers[originalIndex] = studentAnswer;
+    });
+    
+    // Join with commas
+    const result = originalOrderAnswers.join(',');
+    
+    console.log("✅ Answers formatted:");
+    console.log("Total answers: 75");
+    console.log("Answered:", answers.filter(a => a !== null).length);
+    
+    return result;
+}
+
+function calculateSubjectMarks(summary) {
+    let maths = 0, physics = 0, chemistry = 0, total = 0;
+    
+    for (let subject in summary) {
+        const subjectLower = subject.toLowerCase();
+        if (subjectLower.includes('math')) maths = summary[subject].marks;
+        else if (subjectLower.includes('phy')) physics = summary[subject].marks;
+        else if (subjectLower.includes('chem')) chemistry = summary[subject].marks;
+        total += summary[subject].marks;
+    }
+    
+    return { maths, physics, chemistry, total };
+}
+
+async function submitToGoogleForms(answersData) {
+    const FORM_URL = GOOGLE_FORMS[assignedForm];
+    
+    if (!FORM_URL) {
+        console.error(`❌ No Google Form URL found for form ${assignedForm}`);
+        updateSubmissionStatus('error', `No Google Form URL found for form ${assignedForm}`);
+        saveSubmissionLocally(answersData);
+        return false;
+    }
+
+    try {
+        // Get the correct form fields for this section
+        const formFields = getFormFields(assignedForm);
+        
+        // Prepare the form data
+        const formData = new URLSearchParams();
+        
+        // Basic student information
+        formData.append(formFields.STUDENT_NAME, answersData.student.name);
+        formData.append(formFields.SECTION, answersData.student.sec);
+        formData.append(formFields.ROLL_NUMBER, answersData.student.roll);
+        formData.append(formFields.ADMISSION_NUMBER, answersData.student.adm);
+        
+        // Calculate and add marks
+        const marks = calculateSubjectMarks(answersData.summary);
+        formData.append(formFields.MATHS_MARKS, marks.maths.toFixed(2));
+        formData.append(formFields.PHYSICS_MARKS, marks.physics.toFixed(2));
+        formData.append(formFields.CHEMISTRY_MARKS, marks.chemistry.toFixed(2));
+        formData.append(formFields.TOTAL_MARKS, marks.total.toFixed(2));
+        
+        // Add timestamp
+        formData.append(formFields.TIMESTAMP, new Date().toLocaleString());
+        
+        // ADD ALL ANSWERS
+        const allAnswersString = formatAllAnswersString(progress.answers);
+        formData.append(formFields.ALL_ANSWERS, allAnswersString);
+        
+        console.log("📤 Submitting to Google Forms:");
+        console.log("Form:", assignedForm);
+        console.log("Student:", answersData.student.name);
+        console.log("Answers String:", allAnswersString.substring(0, 100) + "...");
+
+        // Show pending status
+        updateSubmissionStatus('pending', 'Submitting to Google Forms...');
+
+        // Submit to Google Forms with timeout
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
+        
+        const response = await fetch(FORM_URL, {
+            method: "POST",
+            mode: "no-cors",
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: formData,
+            signal: controller.signal
+        });
+
+        clearTimeout(timeoutId);
+
+        console.log("✅ Google Forms submission completed");
+        updateSubmissionStatus('success', '✅ Answers successfully submitted to Google Forms!');
+        
+        // Clear local storage after successful submission
+        clearSavedExam();
+        
+        return true;
+        
+    } catch (error) {
+        console.error("❌ Google Forms submission failed:", error);
+        
+        if (error.name === 'AbortError') {
+            updateSubmissionStatus('error', '❌ Submission timeout. Your answers have been saved locally.');
+        } else {
+            updateSubmissionStatus('error', '❌ Failed to submit to Google Forms. Your answers have been saved locally.');
+        }
+        
+        // Save locally for manual recovery
+        saveSubmissionLocally(answersData);
+        
+        return false;
+    }
+}
+
+function saveSubmissionLocally(answersData) {
+    try {
+        const localSubmissions = JSON.parse(localStorage.getItem('local_exam_submissions') || '[]');
+        localSubmissions.push({
+            ...answersData,
+            savedAt: new Date().toISOString(),
+            needsSync: true,
+            form: assignedForm
+        });
+        
+        localStorage.setItem('local_exam_submissions', JSON.stringify(localSubmissions));
+        
+        console.log('💾 Submission saved locally for manual recovery');
+        showToast('💾 Submission saved locally. Contact administrator if needed.', 'warning', 5000);
+        
+    } catch (error) {
+        console.error('❌ Failed to save submission locally:', error);
+    }
+}
+
+function updateSubmissionStatus(status, message) {
+    googleFormsSubmissionStatus = status;
+    
+    const statusDiv = document.getElementById('summarySubmissionStatus');
+    if (statusDiv) {
+        statusDiv.innerHTML = `<div class="submission-status submission-${status}">${message}</div>`;
+    }
+    
+    const entryStatus = document.getElementById('googleFormsStatus');
+    if (entryStatus) {
+        entryStatus.innerHTML = `<div class="submission-status submission-${status}">${message}</div>`;
+        entryStatus.style.display = 'block';
+    }
+}
+
+async function submitToGoogleFormsWithRetry(answersData, maxRetries = 3) {
+    for (let attempt = 1; attempt <= maxRetries; attempt++) {
+        try {
+            console.log(`📤 Submission attempt ${attempt}/${maxRetries}`);
+            
+            if (!navigator.onLine) {
+                console.log('📴 Offline - saving locally');
+                saveSubmissionLocally(answersData);
+                return { success: false, offline: true };
+            }
+            
+            const success = await submitToGoogleForms(answersData);
+            
+            if (success) {
+                return { success: true };
+            }
+            
+            if (attempt < maxRetries) {
+                // Wait before retry (exponential backoff)
+                const delay = Math.min(1000 * Math.pow(2, attempt - 1), 10000);
+                console.log(`⏳ Retrying in ${delay/1000} seconds...`);
+                await new Promise(resolve => setTimeout(resolve, delay));
+            }
+            
+        } catch (error) {
+            console.error(`❌ Submission error (attempt ${attempt}):`, error);
+            
+            if (attempt === maxRetries) {
+                // Last attempt failed, save locally
+                saveSubmissionLocally(answersData);
+                return { success: false, error: error.message, savedLocally: true };
+            }
+        }
+    }
+    
+    return { success: false, error: 'Max retries exceeded' };
 }
 
 // ===== SUBMISSION FUNCTIONS =====
@@ -2036,20 +3659,45 @@ function submitExam() {
   if (hasSubmitted) return;
   clearInterval(timerInterval);
   
+  if (autoSaveTimer) {
+    clearInterval(autoSaveTimer);
+    autoSaveTimer = null;
+  }
+  
   hasSubmitted = true;
   examInProgress = false;
+  
+  examSecurity.disable();
   
   const subjData = {};
   examData.subjectNames.forEach((s, i) => {
     const subjectName = identifySubject(s);
-    if (!subjData[subjectName]) subjData[subjectName] = {correct: 0, wrong: 0, blank: 0, total: 0, marks: 0};
+    if (!subjData[subjectName]) subjData[subjectName] = {
+      correct: 0, wrong: 0, blank: 0, total: 0, marks: 0,
+      mcq: { total: 0, correct: 0 },
+      fillBlank: { total: 0, correct: 0 }
+    };
     
     const ans = progress.answers[i];
+    const questionType = examData.questionTypes[i];
+    
+    if (questionType === 'mcq') {
+      subjData[subjectName].mcq.total++;
+    } else {
+      subjData[subjectName].fillBlank.total++;
+    }
+    
     if (ans === null) {
       subjData[subjectName].blank++;
     } else if (ans === examData.keys[i]) {
       subjData[subjectName].correct++;
       subjData[subjectName].marks += MARK_PER_CORRECT;
+      
+      if (questionType === 'mcq') {
+        subjData[subjectName].mcq.correct++;
+      } else {
+        subjData[subjectName].fillBlank.correct++;
+      }
     } else {
       subjData[subjectName].wrong++;
       subjData[subjectName].marks += MARK_PER_WRONG;
@@ -2061,100 +3709,36 @@ function submitExam() {
   
   console.log("🎯 FINAL SUBMISSION DATA:");
   console.log("Student:", progress.student.name);
-  console.log("All Answers:", progress.answers);
-  console.log("Correct Answers:", examData.keys);
   console.log("Subject Data:", subjData);
+  console.log("Tab switches:", tabSwitchCount);
 
-  // Submit to Google Forms
-  sendToGoogleFormWithGuarantee(subjData, progress.student);
+  // ===== GOOGLE FORMS SUBMISSION =====
+  // Capture all answers data
+  const answersData = captureAllAnswersData();
   
+  // Submit to Google Forms with retry logic
+  submitToGoogleFormsWithRetry(answersData).then(result => {
+    if (result.success) {
+      console.log('✅ Google Forms submission successful');
+      updateSubmissionStatus('success', '✅ Answers successfully submitted to Google Forms!');
+    } else if (result.offline) {
+      console.log('📴 Submission saved offline');
+      updateSubmissionStatus('error', '📴 Submission saved offline. Will auto-retry when online.');
+    } else {
+      console.log('❌ Google Forms submission failed');
+      updateSubmissionStatus('error', '❌ Failed to submit to Google Forms. Your answers have been saved locally.');
+    }
+  });
+
   // Show summary immediately
   showSummaryInterface(subjData);
 }
 
-// ===== DETAILED SOLUTIONS =====
-function showDetailedSolutions() {
-  document.getElementById('summaryArea').style.display = 'none';
-  document.getElementById('reviewArea').style.display = 'block';
-  
-  document.getElementById('reviewStudentName').textContent = progress.student.name;
-  document.getElementById('reviewSection').textContent = progress.student.sec;
-  document.getElementById('reviewRoll').textContent = progress.student.roll;
-  document.getElementById('reviewAdm').textContent = progress.student.adm;
-  document.getElementById('reviewForm').textContent = assignedForm;
-  
-  // Create detailed results table
-  const table = document.createElement('table');
-  table.className = 'detailed-results-table';
-  table.innerHTML = `
-    <thead>
-      <tr>
-        <th>Subject</th>
-        <th>Correct</th>
-        <th>Wrong</th>
-        <th>Blank</th>
-        <th>Total</th>
-        <th>Marks</th>
-      </tr>
-    </thead>
-    <tbody>
-      ${Object.entries(currentSubjData).map(([subject, data]) => `
-        <tr>
-          <td>${subject}</td>
-          <td>${data.correct}</td>
-          <td>${data.wrong}</td>
-          <td>${data.blank}</td>
-          <td>${data.total}</td>
-          <td>${data.marks.toFixed(2)}</td>
-        </tr>
-      `).join('')}
-      <tr class="total-row">
-        <td><strong>Total</strong></td>
-        <td><strong>${Object.values(currentSubjData).reduce((sum, d) => sum + d.correct, 0)}</strong></td>
-        <td><strong>${Object.values(currentSubjData).reduce((sum, d) => sum + d.wrong, 0)}</strong></td>
-        <td><strong>${Object.values(currentSubjData).reduce((sum, d) => sum + d.blank, 0)}</strong></td>
-        <td><strong>${Object.values(currentSubjData).reduce((sum, d) => sum + d.total, 0)}</strong></td>
-        <td><strong>${Object.values(currentSubjData).reduce((sum, d) => sum + d.marks, 0).toFixed(2)}</strong></td>
-      </tr>
-    </tbody>
-  `;
-  
-  document.getElementById('detailedResultsContainer').innerHTML = '';
-  document.getElementById('detailedResultsContainer').appendChild(table);
-  
-  // Generate detailed solutions
-  const solutionsContainer = document.getElementById('reviewQuestionsContainer');
-  solutionsContainer.innerHTML = '<h3 style="text-align:center; color:#4B0082; margin:30px 0;">Detailed Question Solutions</h3>';
-  
-  for (let i = 0; i < examData.files.length; i++) {
-    const solutionDiv = document.createElement('div');
-    solutionDiv.className = 'solution-container';
-    
-    const studentAnswer = progress.answers[i];
-    const correctAnswer = examData.keys[i];
-    const isCorrect = studentAnswer === correctAnswer;
-    
-    solutionDiv.innerHTML = `
-      <div class="solution-question">Question ${i+1} (${examData.subjectNames[i]})</div>
-      <div class="solution-answer ${isCorrect ? 'solution-correct' : 'solution-wrong'}">
-        <strong>Your Answer:</strong> ${studentAnswer || 'Not Attempted'} 
-        ${!isCorrect && studentAnswer ? ` | <strong>Correct Answer:</strong> ${correctAnswer}` : ''}
-        ${isCorrect ? ' ✅' : ' ❌'}
-      </div>
-      <div class="solution-explanation">
-        This question was from ${examData.subjectNames[i]} section. 
-        ${isCorrect ? 'You answered correctly!' : studentAnswer ? 'Your answer was incorrect.' : 'You did not attempt this question.'}
-      </div>
-    `;
-    
-    solutionsContainer.appendChild(solutionDiv);
-  }
-  
-  document.getElementById('closeReviewBtn').onclick = () => {
-    document.getElementById('reviewArea').style.display = 'none';
-    document.getElementById('studentEntry').style.display = 'flex';
-    resetForm();
-  };
+function identifySubject(subjectName) {
+  if (subjectName.includes('Math')) return 'Mathematics';
+  if (subjectName.includes('Phy')) return 'Physics';
+  if (subjectName.includes('Chem')) return 'Chemistry';
+  return subjectName;
 }
 
 // ===== SUMMARY INTERFACE =====
@@ -2168,14 +3752,15 @@ function showSummaryInterface(subjData) {
   document.getElementById('summaryAdm').textContent = progress.student.adm;
   document.getElementById('summaryForm').textContent = assignedForm;
   
-  // Create summary table
   const table = document.createElement('table');
   table.className = 'results-table';
   table.innerHTML = `
     <thead>
       <tr>
         <th>Subject</th>
-        <th>Correct</th>
+        <th>MCQ (Correct/Total)</th>
+        <th>Numerical (Correct/Total)</th>
+        <th>Total Correct</th>
         <th>Wrong</th>
         <th>Blank</th>
         <th>Total</th>
@@ -2186,6 +3771,8 @@ function showSummaryInterface(subjData) {
       ${Object.entries(subjData).map(([subject, data]) => `
         <tr>
           <td>${subject}</td>
+          <td>${data.mcq.correct}/${data.mcq.total}</td>
+          <td>${data.fillBlank.correct}/${data.fillBlank.total}</td>
           <td>${data.correct}</td>
           <td>${data.wrong}</td>
           <td>${data.blank}</td>
@@ -2195,6 +3782,8 @@ function showSummaryInterface(subjData) {
       `).join('')}
       <tr class="total-row">
         <td><strong>Total</strong></td>
+        <td><strong>${Object.values(subjData).reduce((sum, d) => sum + d.mcq.correct, 0)}/${Object.values(subjData).reduce((sum, d) => sum + d.mcq.total, 0)}</strong></td>
+        <td><strong>${Object.values(subjData).reduce((sum, d) => sum + d.fillBlank.correct, 0)}/${Object.values(subjData).reduce((sum, d) => sum + d.fillBlank.total, 0)}</strong></td>
         <td><strong>${Object.values(subjData).reduce((sum, d) => sum + d.correct, 0)}</strong></td>
         <td><strong>${Object.values(subjData).reduce((sum, d) => sum + d.wrong, 0)}</strong></td>
         <td><strong>${Object.values(subjData).reduce((sum, d) => sum + d.blank, 0)}</strong></td>
@@ -2207,7 +3796,6 @@ function showSummaryInterface(subjData) {
   document.getElementById('summaryTableContainer').innerHTML = '';
   document.getElementById('summaryTableContainer').appendChild(table);
   
-  // Auto transition to detailed solutions
   document.getElementById('autoTransitionMessage').style.display = 'block';
   let countdown = 5;
   document.getElementById('countdown').textContent = countdown;
@@ -2229,12 +3817,152 @@ function showSummaryInterface(subjData) {
   };
 }
 
-// ===== UTILITY FUNCTIONS =====
-function identifySubject(subjectName) {
-  if (subjectName.includes('Math')) return 'Mathematics';
-  if (subjectName.includes('Phy')) return 'Physics';
-  if (subjectName.includes('Chem')) return 'Chemistry';
-  return subjectName;
+// ===== DETAILED SOLUTIONS =====
+function showDetailedSolutions() {
+  document.getElementById('summaryArea').style.display = 'none';
+  document.getElementById('reviewArea').style.display = 'block';
+  
+  document.getElementById('reviewStudentName').textContent = progress.student.name;
+  document.getElementById('reviewSection').textContent = progress.student.sec;
+  document.getElementById('reviewRoll').textContent = progress.student.roll;
+  document.getElementById('reviewAdm').textContent = progress.student.adm;
+  document.getElementById('reviewForm').textContent = assignedForm;
+  
+  const table = document.createElement('table');
+  table.className = 'detailed-results-table';
+  table.innerHTML = `
+    <thead>
+      <tr>
+        <th>Subject</th>
+        <th>MCQ (Correct/Total)</th>
+        <th>Numerical (Correct/Total)</th>
+        <th>Total Correct</th>
+        <th>Wrong</th>
+        <th>Blank</th>
+        <th>Total</th>
+        <th>Marks</th>
+      </tr>
+    </thead>
+    <tbody>
+      ${Object.entries(currentSubjData).map(([subject, data]) => `
+        <tr>
+          <td>${subject}</td>
+          <td>${data.mcq.correct}/${data.mcq.total}</td>
+          <td>${data.fillBlank.correct}/${data.fillBlank.total}</td>
+          <td>${data.correct}</td>
+          <td>${data.wrong}</td>
+          <td>${data.blank}</td>
+          <td>${data.total}</td>
+          <td>${data.marks.toFixed(2)}</td>
+        </tr>
+      `).join('')}
+      <tr class="total-row">
+        <td><strong>Total</strong></td>
+        <td><strong>${Object.values(currentSubjData).reduce((sum, d) => sum + d.mcq.correct, 0)}/${Object.values(currentSubjData).reduce((sum, d) => sum + d.mcq.total, 0)}</strong></td>
+        <td><strong>${Object.values(currentSubjData).reduce((sum, d) => sum + d.fillBlank.correct, 0)}/${Object.values(currentSubjData).reduce((sum, d) => sum + d.fillBlank.total, 0)}</strong></td>
+        <td><strong>${Object.values(currentSubjData).reduce((sum, d) => sum + d.correct, 0)}</strong></td>
+        <td><strong>${Object.values(currentSubjData).reduce((sum, d) => sum + d.wrong, 0)}</strong></td>
+        <td><strong>${Object.values(currentSubjData).reduce((sum, d) => sum + d.blank, 0)}</strong></td>
+        <td><strong>${Object.values(currentSubjData).reduce((sum, d) => sum + d.total, 0)}</strong></td>
+        <td><strong>${Object.values(currentSubjData).reduce((sum, d) => sum + d.marks, 0).toFixed(2)}</strong></td>
+      </tr>
+    </tbody>
+  `;
+  
+  document.getElementById('detailedResultsContainer').innerHTML = '';
+  document.getElementById('detailedResultsContainer').appendChild(table);
+  
+  const solutionsContainer = document.getElementById('reviewQuestionsContainer');
+  solutionsContainer.innerHTML = '<h3 style="text-align:center; color:#4B0082; margin:30px 0;">Detailed Question Solutions</h3>';
+  
+  const sortedAnswers = [];
+  for (let i = 0; i < examData.files.length; i++) {
+    sortedAnswers.push({
+      shuffledIndex: i,
+      originalIndex: examData.originalOrder[i],
+      studentAnswer: progress.answers[i],
+      correctAnswer: examData.keys[i],
+      subject: examData.subjectNames[i],
+      type: examData.questionTypes[i]
+    });
+  }
+  
+  sortedAnswers.sort((a, b) => a.originalIndex - b.originalIndex);
+  
+  sortedAnswers.forEach((item, index) => {
+    const solutionDiv = document.createElement('div');
+    solutionDiv.className = 'solution-container';
+    solutionDiv.style.cssText = 'margin: 20px 0; padding: 15px; border: 1px solid #ddd; border-radius: 8px;';
+    
+    const isCorrect = item.studentAnswer === item.correctAnswer;
+    const questionNumber = item.originalIndex + 1;
+    
+    solutionDiv.innerHTML = `
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+        <div class="solution-question" style="font-size: 18px; font-weight: bold; color: #4B0082;">
+          Question ${questionNumber} (${item.subject}) - ${item.type === 'fill-blank' ? 'Numerical Input' : 'MCQ'}
+        </div>
+        <div style="font-size: 24px;">
+          ${isCorrect ? '✅' : '❌'}
+        </div>
+      </div>
+      <div class="solution-answer ${isCorrect ? 'solution-correct' : 'solution-wrong'}" 
+           style="padding: 10px; border-radius: 5px; margin: 10px 0; ${isCorrect ? 'background: #d4edda;' : 'background: #f8d7da;'}">
+        <strong>Your Answer:</strong> ${item.studentAnswer || 'Not Attempted'} 
+        ${!isCorrect && item.studentAnswer ? ` | <strong>Correct Answer:</strong> ${item.correctAnswer}` : ''}
+      </div>
+      <div class="solution-explanation" style="color: #666;">
+        ${isCorrect ? 
+          'You answered correctly!' : 
+          item.studentAnswer ? 
+          'Your answer was incorrect.' : 
+          'You did not attempt this question.'}
+      </div>
+    `;
+    
+    solutionsContainer.appendChild(solutionDiv);
+  });
+  
+  document.getElementById('closeReviewBtn').onclick = () => {
+    document.getElementById('reviewArea').style.display = 'none';
+    document.getElementById('studentEntry').style.display = 'flex';
+    resetForm();
+  };
+}
+
+// ===== DOWNLOAD FUNCTION =====
+function downloadStudentCSV() {
+  let csvContent = "Question,Subject,Type,Your Answer,Correct Answer,Status\n";
+  
+  const sortedData = [];
+  for (let i = 0; i < examData.files.length; i++) {
+    sortedData.push({
+      questionNumber: examData.originalOrder[i] + 1,
+      subject: examData.subjectNames[i],
+      type: examData.questionTypes[i] === 'fill-blank' ? 'Numerical Input' : 'MCQ',
+      studentAnswer: progress.answers[i] || 'Not Attempted',
+      correctAnswer: examData.keys[i]
+    });
+  }
+  
+  sortedData.sort((a, b) => a.questionNumber - b.questionNumber);
+  
+  sortedData.forEach(item => {
+    const status = item.studentAnswer === item.correctAnswer ? 'Correct' : 
+                  item.studentAnswer === 'Not Attempted' ? 'Not Attempted' : 'Wrong';
+    
+    csvContent += `${item.questionNumber},${item.subject},${item.type},${item.studentAnswer},${item.correctAnswer},${status}\n`;
+  });
+  
+  const blob = new Blob([csvContent], { type: 'text/csv' });
+  const url = window.URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.setAttribute('hidden', '');
+  a.setAttribute('href', url);
+  a.setAttribute('download', `exam_results_${progress.student.name}_${progress.student.roll}.csv`);
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
 }
 
 function resetForm() {
@@ -2244,21 +3972,9 @@ function resetForm() {
   document.getElementById('stuAdm').value = '';
   document.getElementById('formAssignment').style.display = 'none';
   document.getElementById('googleFormsStatus').style.display = 'none';
+  document.getElementById('resumeExamSection').style.display = 'none';
+  window.pendingRecoveryData = null;
   validateStudentInputs();
-}
-
-// ===== CONFIRMATION MODAL =====
-function showConfirm(message, callback) {
-  const modal = document.getElementById('confirmModal');
-  const text = document.getElementById('confirmText');
-  const yesBtn = document.getElementById('confirmYes');
-  const noBtn = document.getElementById('confirmNo');
-  
-  text.textContent = message;
-  modal.style.display = 'flex';
-  
-  yesBtn.onclick = () => { modal.style.display = 'none'; callback(true); };
-  noBtn.onclick = () => { modal.style.display = 'none'; callback(false); };
 }
 
 // ===== ADMIN PASSWORD =====
@@ -2287,44 +4003,286 @@ document.getElementById('adminPassInput').addEventListener('keypress', function(
   if (e.key === 'Enter') document.getElementById('adminPassSubmit').click();
 });
 
-// ===== DOWNLOAD FUNCTION =====
-function downloadStudentCSV() {
-  let csvContent = "Question,Subject,Your Answer,Correct Answer,Status\n";
-  
-  for (let i = 0; i < examData.files.length; i++) {
-    const studentAnswer = progress.answers[i] || 'Not Attempted';
-    const correctAnswer = examData.keys[i];
-    const status = studentAnswer === correctAnswer ? 'Correct' : 
-                  studentAnswer === 'Not Attempted' ? 'Not Attempted' : 'Wrong';
-    
-    csvContent += `${i+1},${examData.subjectNames[i]},${studentAnswer},${correctAnswer},${status}\n`;
-  }
-  
-  const blob = new Blob([csvContent], { type: 'text/csv' });
-  const url = window.URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.setAttribute('hidden', '');
-  a.setAttribute('href', url);
-  a.setAttribute('download', `exam_results_${progress.student.name}_${progress.student.roll}.csv`);
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-}
-
 // ===== KEYBOARD SHORTCUTS =====
 document.addEventListener('keydown', function(e) {
   if (document.getElementById('examArea').style.display === 'block') {
-    const keyMap = {'1': 'A', '2': 'B', '3': 'C', '4': 'D'};
-    if (keyMap[e.key]) {
-      e.preventDefault();
-      selectOption(keyMap[e.key]);
+    const idx = progress.currentIndex;
+    const questionType = examData.questionTypes[idx];
+    
+    if (questionType === 'fill-blank') {
+      // Allow number keys
+      if ((e.key >= '0' && e.key <= '9') || e.key === '.' || e.key === '-') {
+        // Already handled by input field
+      }
+    } else {
+      const keyMap = {'1': 'A', '2': 'B', '3': 'C', '4': 'D'};
+      if (keyMap[e.key]) {
+        e.preventDefault();
+        selectOption(keyMap[e.key]);
+      }
     }
+    
+    if (e.key === 'ArrowLeft') document.getElementById('prevBtn').click();
+    if (e.key === 'ArrowRight') document.getElementById('nextBtn').click();
+    if (e.key === ' ') document.getElementById('markReviewBtn').click();
   }
 });
 
+// ===== SYSTEM TRAY & TASKBAR VIOLATION DETECTION =====
+let systemTrayViolations = 0;
+const MAX_SYSTEM_TRAY_VIOLATIONS = 3;
+let lastSystemTrayViolationTime = 0;
+let systemTrayCheckInterval = null;
+
+class SystemTrayViolationDetector {
+    constructor() {
+        this.blurCount = 0;
+        this.maxBlurCount = 2;
+        this.setupTaskbarDetection();
+        console.log('🔒 System Tray & Taskbar Violation System Ready');
+    }
+    
+    setupTaskbarDetection() {
+        // 1. DETECT WINDOWS KEY PRESSES (opens Start Menu/Search)
+        document.addEventListener('keydown', (e) => {
+            if (!examInProgress) return;
+            
+            const currentTime = Date.now();
+            if (currentTime - lastSystemTrayViolationTime < 500) return;
+            
+            // Windows/Command key (Meta key) - Opens Start Menu/Search
+            if (e.key === 'Meta' || e.key === 'Win' || e.keyCode === 91 || e.keyCode === 92) {
+                e.preventDefault();
+                e.stopPropagation();
+                handleSystemTrayViolation('Windows key pressed (opens Start Menu/Search)');
+                return false;
+            }
+            
+            // Windows+S (Windows Search)
+            if ((e.key === 's' || e.key === 'S') && (e.metaKey || e.ctrlKey)) {
+                e.preventDefault();
+                e.stopPropagation();
+                handleSystemTrayViolation('Windows+S pressed (opens Windows Search)');
+                return false;
+            }
+            
+            // Windows+R (Run dialog)
+            if ((e.key === 'r' || e.key === 'R') && e.metaKey) {
+                e.preventDefault();
+                e.stopPropagation();
+                handleSystemTrayViolation('Windows+R pressed (opens Run dialog)');
+                return false;
+            }
+            
+            // Windows+X (Power User menu)
+            if ((e.key === 'x' || e.key === 'X') && e.metaKey) {
+                e.preventDefault();
+                e.stopPropagation();
+                handleSystemTrayViolation('Windows+X pressed (opens Power User menu)');
+                return false;
+            }
+            
+            // Alt+Tab (Task switching)
+            if (e.key === 'Tab' && e.altKey) {
+                e.preventDefault();
+                e.stopPropagation();
+                handleSystemTrayViolation('Alt+Tab pressed (task switching)');
+                return false;
+            }
+            
+            // Windows+Tab (Task View)
+            if (e.key === 'Tab' && e.metaKey) {
+                e.preventDefault();
+                e.stopPropagation();
+                handleSystemTrayViolation('Windows+Tab pressed (Task View)');
+                return false;
+            }
+            
+            // Windows+D (Show desktop)
+            if ((e.key === 'd' || e.key === 'D') && e.metaKey) {
+                e.preventDefault();
+                e.stopPropagation();
+                handleSystemTrayViolation('Windows+D pressed (minimizes all windows)');
+                return false;
+            }
+        }, true);
+        
+        // 2. DETECT FOCUS LOSS TO SYSTEM TRAY
+        document.addEventListener('visibilitychange', () => {
+            if (!examInProgress) return;
+            
+            if (document.hidden) {
+                const currentTime = Date.now();
+                
+                // Check if this is a tab switch or system tray click
+                if (currentTime - lastTabSwitchTime > 2000) {
+                    // This might be a system tray click
+                    handleSystemTrayViolation('Possible system tray/taskbar click detected');
+                }
+            }
+        });
+        
+        // 3. PERIODIC CHECK FOR SYSTEM TRAY ACTIVITY
+        this.startPeriodicChecks();
+    }
+    
+    startPeriodicChecks() {
+        if (systemTrayCheckInterval) clearInterval(systemTrayCheckInterval);
+        
+        systemTrayCheckInterval = setInterval(() => {
+            if (!examInProgress) return;
+            
+            // Check if window lost focus without tab switch
+            if (!document.hasFocus()) {
+                const currentTime = Date.now();
+                if (currentTime - lastTabSwitchTime > 3000) {
+                    // Window lost focus but no recent tab switch - likely system tray
+                    handleSystemTrayViolation('Window focus lost to system tray/taskbar');
+                }
+            }
+        }, 1000);
+    }
+    
+    stopPeriodicChecks() {
+        if (systemTrayCheckInterval) {
+            clearInterval(systemTrayCheckInterval);
+            systemTrayCheckInterval = null;
+        }
+    }
+    
+    resetViolations() {
+        systemTrayViolations = 0;
+        lastSystemTrayViolationTime = 0;
+        console.log('🔄 System tray violations reset');
+    }
+}
+
+// Initialize system tray violation detector
+const systemTrayDetector = new SystemTrayViolationDetector();
+
+function handleSystemTrayViolation(violationType) {
+    if (!examInProgress) return;
+    
+    const currentTime = Date.now();
+    
+    // Prevent counting multiple violations in rapid succession
+    if (currentTime - lastSystemTrayViolationTime < 1000) {
+        console.log(`Ignoring rapid system tray violation: ${violationType}`);
+        return;
+    }
+    
+    lastSystemTrayViolationTime = currentTime;
+    systemTrayViolations++;
+    
+    console.log(`🚨 System Tray Violation #${systemTrayViolations}: ${violationType}`);
+    
+    // Show warning to student
+    showSystemTrayViolationWarning(systemTrayViolations, violationType);
+    
+    // SUBMIT EXAM AFTER 3 VIOLATIONS (Same as tab switches!)
+    if (systemTrayViolations >= MAX_SYSTEM_TRAY_VIOLATIONS) {
+        console.log('🚨 3 system tray violations detected - submitting exam!');
+        
+        // Show final warning
+        showViolationOverlay(`
+            🚨 EXAM VIOLATION DETECTED
+            <br><br>
+            ${violationType}
+            <br><br>
+            <strong>3 system tray violations reached!</strong>
+            <br>
+            Submitting exam in 3 seconds...
+        `, 'red');
+        
+        // Submit exam after delay
+        setTimeout(() => {
+            if (examInProgress) {
+                submitExam();
+            }
+        }, 3000);
+    }
+}
+
+function showSystemTrayViolationWarning(count, violationType) {
+    const messages = [
+        `⚠️ System Tray Access: ${violationType} (1/${MAX_SYSTEM_TRAY_VIOLATIONS})`,
+        `⚠️ System Tray Access: ${violationType} (2/${MAX_SYSTEM_TRAY_VIOLATIONS}) - One more violation will submit exam!`,
+        `🚨 3 system tray violations detected! ${violationType} - Submitting exam...`
+    ];
+    
+    const messageIndex = Math.min(count - 1, 2);
+    const message = messages[messageIndex];
+    
+    // Show toast notification
+    showToast(message, 'error', 5000);
+    
+    // Show big warning overlay for serious violations
+    if (count >= 2) {
+        showViolationOverlay(`
+            ⚠️ SYSTEM TRAY VIOLATION
+            <br><br>
+            ${violationType}
+            <br><br>
+            <strong>Count: ${count}/${MAX_SYSTEM_TRAY_VIOLATIONS}</strong>
+            <br>
+            Accessing system tray, taskbar, or Windows shortcuts is prohibited!
+        `, 'orange');
+    }
+}
+
+function showViolationOverlay(message, color) {
+    const existingOverlay = document.getElementById('violationWarningOverlay');
+    if (existingOverlay) {
+        existingOverlay.remove();
+    }
+    
+    const overlay = document.createElement('div');
+    overlay.id = 'violationWarningOverlay';
+    overlay.style.cssText = `
+        position: fixed;
+        top: 20%;
+        left: 50%;
+        transform: translateX(-50%);
+        background: ${color === 'red' ? 'rgba(255, 0, 0, 0.95)' : 'rgba(255, 165, 0, 0.95)'};
+        color: white;
+        padding: 25px 35px;
+        border-radius: 15px;
+        z-index: 10002;
+        text-align: center;
+        font-weight: bold;
+        font-size: 20px;
+        border: 4px solid white;
+        box-shadow: 0 0 40px ${color === 'red' ? 'red' : 'orange'};
+        animation: pulse 1s infinite;
+        max-width: 80%;
+        min-width: 300px;
+    `;
+    
+    overlay.innerHTML = message;
+    document.body.appendChild(overlay);
+    
+    setTimeout(() => {
+        overlay.style.animation = 'fadeOut 0.5s ease';
+        setTimeout(() => {
+            if (overlay.parentNode) {
+                overlay.parentNode.removeChild(overlay);
+            }
+        }, 500);
+    }, 5000);
+}
+
 // ===== INITIAL SETUP =====
 window.addEventListener('load', function() {
-  console.log('LFJC Online Exam System Initialized');
+  console.log('LFJC Online Exam System Initialized (75 Questions)');
+  console.log('📚 Question Structure:');
+  console.log('• Maths: Q1-20 (MCQ), Q21-25 (Numerical Input)');
+  console.log('• Physics: Q26-45 (MCQ), Q46-50 (Numerical Input)');
+  console.log('• Chemistry: Q51-70 (MCQ), Q71-75 (Numerical Input)');
+  console.log('🔒 Full-Screen Security Active');
+  console.log('📊 Tab Switching Detection: 3 switches total submit exam');
+  console.log('🔒 System Tray Detection: 3 violations total submit exam');
+  console.log('⚡ POWER LOSS PROTECTION: Auto-save every 15 seconds');
+  console.log('📤 GOOGLE FORMS SUBMISSION: Enabled');
   
   document.getElementById('accessDenied').style.display = 'flex';
   document.getElementById('studentEntry').style.display = 'none';
@@ -2333,18 +4291,25 @@ window.addEventListener('load', function() {
   document.getElementById('reviewArea').style.display = 'none';
   document.getElementById('resubmissionSection').style.display = 'none';
   document.getElementById('googleFormsStatus').style.display = 'none';
+  document.getElementById('resumeExamSection').style.display = 'none';
   
   document.getElementById('accessCode').focus();
   
-  // Load answer key from repository
+  // Load answer key first
   loadAnswerKeyFromRepo();
+  
+  // Initialize power loss protection
+  setTimeout(() => {
+    initPowerLossProtection();
+  }, 1000);
 });
 
 console.log("🎯 LFJC Online Exam System Loaded Successfully");
-console.log("✅ Fixed: Answer key parsing for '5 per line without gap' format");
-console.log("✅ Fixed: Image loading from questions folder");
-console.log("✅ Enhanced: Google Forms integration with 10 forms (A-J)");
-console.log("✅ Enhanced: Form-specific answer field mappings");
+console.log("✅ 75 questions with specified structure");
+console.log("✅ Google Forms submission is now ACTIVE");
+console.log("✅ Results will be sent to assigned Google Form");
+console.log("✅ System Tray/Taskbar violation detection ACTIVE");
+console.log("✅ Auto-save and power loss recovery working");
 </script>
 </body>
 </html>
