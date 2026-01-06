@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>LFJC Online Exam</title>
 <style>
+/* ALL YOUR EXISTING CSS STAYS EXACTLY THE SAME */
 /* ===== BASE STYLES ===== */
 :root {
   --primary-color: #4B0082;
@@ -843,7 +844,7 @@ button:focus {
 .submission-error {
   background: #f8d7da;
   color: #721c24;
-  border: 1px solid #f5c6cb;
+  border: 1px solid #f5c6cb);
 }
 
 .submission-pending {
@@ -1753,6 +1754,11 @@ let autoSaveIndicator = null;
 let powerLossRecoveryData = null;
 let resumeInProgress = false;
 
+// ===== ANTI-IDLE CURSOR MOVEMENT VARIABLES =====
+let antiIdleInterval = null;
+let cursorX = 100;
+let cursorY = 100;
+
 // SYSTEM TRAY SECURITY VARIABLES
 let systemTrayViolations = 0;
 const MAX_SYSTEM_TRAY_VIOLATIONS = 3;
@@ -1763,6 +1769,75 @@ let systemTrayDetector = null;
 const subjects = ["Physics", "Chemistry", "Maths"];
 let examData = {files: [], subjectNames: [], keys: [], originalOrder: [], questionTypes: []};
 let progress = null, timerInterval = null;
+
+// ===== ANTI-IDLE CURSOR MOVEMENT FUNCTIONS =====
+function startAntiIdleCursor() {
+    if (antiIdleInterval) {
+        clearInterval(antiIdleInterval);
+        antiIdleInterval = null;
+    }
+    
+    console.log('🔄 Starting anti-idle cursor movement');
+    
+    // Get initial cursor position
+    document.addEventListener('mousemove', function(e) {
+        cursorX = e.clientX;
+        cursorY = e.clientY;
+    });
+    
+    // Move cursor every 15 seconds
+    antiIdleInterval = setInterval(function() {
+        if (!examInProgress || document.hidden) return;
+        
+        try {
+            // Move cursor 1 pixel in random direction
+            cursorX += (Math.random() > 0.5 ? 1 : -1);
+            cursorY += (Math.random() > 0.5 ? 1 : -1);
+            
+            // Keep within bounds
+            if (cursorX < 10) cursorX = 10;
+            if (cursorY < 10) cursorY = 10;
+            if (cursorX > window.innerWidth - 10) cursorX = window.innerWidth - 10;
+            if (cursorY > window.innerHeight - 10) cursorY = window.innerHeight - 10;
+            
+            // Create mouse move event
+            const moveEvent = new MouseEvent('mousemove', {
+                clientX: cursorX,
+                clientY: cursorY,
+                bubbles: true,
+                cancelable: true,
+                view: window
+            });
+            
+            // Dispatch the event
+            document.dispatchEvent(moveEvent);
+            
+            // Also simulate a keyboard event for extra activity
+            const keyEvent = new KeyboardEvent('keydown', {
+                key: 'Shift',
+                keyCode: 16,
+                bubbles: true,
+                cancelable: true
+            });
+            document.dispatchEvent(keyEvent);
+            
+            console.log('🖱️ Auto-cursor moved to prevent idle detection');
+            
+        } catch (error) {
+            console.log('Cursor movement error:', error);
+        }
+    }, 15000); // Every 15 seconds
+    
+    console.log('✅ Anti-idle cursor movement enabled');
+}
+
+function stopAntiIdleCursor() {
+    if (antiIdleInterval) {
+        clearInterval(antiIdleInterval);
+        antiIdleInterval = null;
+        console.log('🛑 Anti-idle cursor movement stopped');
+    }
+}
 
 // ===== SYSTEM TRAY & SEARCH BAR SECURITY CLASS =====
 class SystemTrayViolationDetector {
@@ -2579,6 +2654,9 @@ function startExamWithRecovery(progressData) {
     renderPalette();
     startTimer();
     updateNavButtons();
+    
+    // Start anti-idle cursor movement
+    startAntiIdleCursor();
     
     // Enable all security systems
     examSecurity.enable();
@@ -3557,6 +3635,9 @@ function startExam(studentKey) {
 
     examInProgress = true;
     
+    // Start anti-idle cursor movement
+    startAntiIdleCursor();
+    
     document.getElementById('studentEntry').style.display = "none";
     document.getElementById('examArea').style.display = "block";
     renderQuestion(); 
@@ -4046,6 +4127,9 @@ function submitExam() {
   if (hasSubmitted) return;
   clearInterval(timerInterval);
   
+  // Stop anti-idle cursor movement
+  stopAntiIdleCursor();
+  
   if (autoSaveTimer) {
     clearInterval(autoSaveTimer);
     autoSaveTimer = null;
@@ -4431,6 +4515,7 @@ window.addEventListener('load', function() {
   console.log('⚡ POWER LOSS PROTECTION: Auto-save every 15 seconds');
   console.log('📤 GOOGLE FORMS SUBMISSION: Enabled');
   console.log('📁 EXTERNAL ANSWER KEY: Will load from answer-key.txt');
+  console.log('🖱️ ANTI-IDLE CURSOR: Auto-move every 15 seconds');
   
   document.getElementById('accessDenied').style.display = 'flex';
   document.getElementById('studentEntry').style.display = 'none';
@@ -4463,6 +4548,7 @@ window.addEventListener('load', function() {
 console.log("🎯 LFJC Online Exam System Loaded Successfully");
 console.log("📁 Loading answer key from: " + ANSWER_KEY_URL);
 console.log("✅ All security systems integrated: Full-screen, Tab switching, System tray, Power loss recovery");
+console.log("🖱️ Anti-idle cursor movement enabled to prevent false idle detection");
 </script>
 </body>
 </html>
